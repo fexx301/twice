@@ -10,5 +10,10 @@ build
 data/pglite/
 .env
 .env.local
+.env.*
+!.env.example
+.local/
+test-results/
+playwright-report/
 .tmp/
 data/*.lock
