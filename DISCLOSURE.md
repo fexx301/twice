@@ -22,8 +22,10 @@ This is a running disclosure, not a claim that the full entry has shipped.
 - October 31: moved the repository and non-secret probe evidence into the durable local project; preserved the baseline commit, no remote or push. The provider key remains in its original owner-only external `.env`, never added to this repository.
 - October 31: code now limits parameter paths to client display name and list-entry stage, excludes identifiers/fixed configuration, canonicalizes the record-ID fan-out, and tests the observed model error and invalid references. This compiler is bounded to the three CRM actions, not a general automation engine.
 
+- October 31: added scoped Twice storage and shared authoring/preview/run actions, immutable History-backed accepted recipe versions, exact preview payloads, per-row durable claims, native Progress, and deterministic composition of the three CRM actions. Added integration coverage for fresh links, concurrency, stale previews, access, History substitution and partial failures. Core remains unmodified.
+
 ## Still planned; update as implemented
 
-Shared actions/storage, History-backed accepted versions, guarded server-side batch execution, agent preparation, review workbench, MCP demonstration and the messy-email eval. Do not describe these as completed until implementation and evidence are recorded here and in the event note.
+Agent preparation, review workbench, MCP demonstration and the messy-email eval. Do not describe these as completed until implementation and evidence are recorded here and in the event note.
 
 No deployment, public repository, Clips recording, publication or submission has been made.

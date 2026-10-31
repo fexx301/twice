@@ -12,6 +12,8 @@ import { customType as pgCustomType } from "drizzle-orm/pg-core";
 
 import { CRM_ATTRIBUTE_TYPES } from "../../shared/crm-attributes.js";
 
+export * from "./twice-schema.js";
+
 const pgIntegerBoolean = pgCustomType<{
   data: boolean;
   driverData: number;

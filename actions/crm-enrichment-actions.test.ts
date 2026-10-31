@@ -4,7 +4,7 @@ import { join } from "node:path";
 
 import { runWithRequestContext } from "@agent-native/core/server";
 import { and, eq, isNull } from "drizzle-orm";
-import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 
 const TEST_DB_PATH = join(
   tmpdir(),
@@ -728,8 +728,7 @@ describe("the two-phase spend gate", () => {
       estimate.budget.spendToDate.actorUnits,
     );
 
-    const previousCap = process.env.CRM_ENRICHMENT_BUDGET_UNITS;
-    process.env.CRM_ENRICHMENT_BUDGET_UNITS = "1";
+    vi.stubEnv("CRM_ENRICHMENT_BUDGET_UNITS", "1");
     try {
       const capped = (await run(estimateEnrichmentAction, {
         phase: "spend",
@@ -749,11 +748,7 @@ describe("the two-phase spend gate", () => {
         ),
       ).rejects.toThrow(/budget/i);
     } finally {
-      if (previousCap === undefined) {
-        delete process.env.CRM_ENRICHMENT_BUDGET_UNITS;
-      } else {
-        process.env.CRM_ENRICHMENT_BUDGET_UNITS = previousCap;
-      }
+      vi.unstubAllEnvs();
     }
   });
 });

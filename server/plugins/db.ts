@@ -8,6 +8,7 @@ import { and, eq } from "drizzle-orm";
 import { DEFAULT_OPPORTUNITY_STAGE_OPTIONS } from "../crm/native-adapter.js";
 import { getDb } from "../db/index.js";
 import * as schema from "../db/schema.js";
+import { twiceInitialSchema } from "../db/twice-migrations.js";
 
 function ownableTable(name: string, columns: string): string {
   return `CREATE TABLE IF NOT EXISTS ${name} (
@@ -648,6 +649,7 @@ export const runCrmMigrations = runMigrations(
         ALTER TABLE IF EXISTS crm_task_shares ADD COLUMN IF NOT EXISTS notified_at TEXT
       `,
     },
+    { version: 10, name: "twice-owned-workflows", sql: twiceInitialSchema },
   ],
   { table: "crm_migrations" },
 );

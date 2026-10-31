@@ -6,9 +6,11 @@ import { registerShareableResource } from "@agent-native/core/sharing";
 
 import { crmNavigationPath } from "../../shared/crm-navigation.js";
 import * as schema from "./schema.js";
+import { registerTwiceResources } from "../twice/resources.js";
 
 export const getDb = createGetDb(schema);
 export { schema };
+registerTwiceResources(getDb, schema);
 
 export interface CrmDashboardConfig {
   version: 1;
