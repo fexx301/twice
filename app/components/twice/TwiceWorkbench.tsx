@@ -4,7 +4,6 @@ import {
   useAgentChatGenerating,
 } from "@agent-native/core/client/agent-chat";
 import { actionErrorMessage, callAction, useActionQuery } from "@agent-native/core/client/hooks";
-import { AGENT_PANEL_PREPARE_EVENT } from "@agent-native/toolkit/app/chat/agent-sidebar-events";
 import { AgentToggleButton, askUserQuestion } from "@agent-native/toolkit/app/chat";
 import {
   IconArrowRight,
@@ -16,6 +15,7 @@ import {
 } from "@tabler/icons-react";
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router";
+import { StageQuestion } from "./StageQuestion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -127,6 +127,7 @@ export function TwiceWorkbench({ mode }: { mode: "recipe" | "batch" }) {
   const [preview, setPreview] = useState<Preview | null>(null);
   const [editing, setEditing] = useState<string | null>(null);
   const [capture, setCapture] = useState(false);
+  const [questionKey, setQuestionKey] = useState<string | null>(null);
   const [client, setClient] = useState("Aster Studio — sample");
   const [stage, setStage] = useState("new");
   const [task, setTask] = useState("Send onboarding pack");
@@ -135,9 +136,6 @@ export function TwiceWorkbench({ mode }: { mode: "recipe" | "batch" }) {
   );
   const recipe = ws?.recipe;
   const batch = ws?.batch;
-  useEffect(() => {
-    if (recipe) window.dispatchEvent(new CustomEvent(AGENT_PANEL_PREPARE_EVENT));
-  }, [recipe?.id]);
   const trace = (ws?.demonstration?.trace ?? []) as CapturedStep[];
   const active = ws?.versions.find((v) => v.id === recipe?.activeVersionId);
   const listId =
@@ -213,6 +211,7 @@ export function TwiceWorkbench({ mode }: { mode: "recipe" | "batch" }) {
     const onTarget = (event: Event) => {
       const detail = (event as CustomEvent<{ submitMessageId: string; tabId: string }>).detail;
       if (detail?.submitMessageId !== submitMessageId || !detail.tabId) return;
+      console.info("[twice-submit-target]", { submitMessageId, tabId: detail.tabId });
       setTrackedTabId(detail.tabId);
       cleanupSubmit.current?.();
     };
@@ -222,6 +221,8 @@ export function TwiceWorkbench({ mode }: { mode: "recipe" | "batch" }) {
     };
     window.addEventListener(AGENT_CHAT_SUBMIT_TARGET_EVENT, onTarget);
     try {
+      // Keep the bootstrap destination: forcing a new chat changes the cold
+      // sidebar's reference target and cancels the queued send.
       const result = await sendToAgentChatAndConfirm(
         {
           message,
@@ -234,10 +235,15 @@ export function TwiceWorkbench({ mode }: { mode: "recipe" | "batch" }) {
         },
         { submitMessageId, timeoutMs: 15000 },
       );
+      console.info("[twice-submit-result]", {
+        submitMessageId,
+        delivered: result.delivered,
+        reason: result.reason,
+      });
       if (!result.delivered) {
         cleanupSubmit.current?.();
         setError(
-          `The agent request was not delivered (${result.reason ?? "unknown"}). The notes are saved; retry once the chat panel is ready.`,
+          `The agent request was not delivered (${result.reason ?? "unknown"}). Your notes are saved. Review the selected batch before starting a new preparation.`,
         );
       }
     } finally {
@@ -297,18 +303,25 @@ export function TwiceWorkbench({ mode }: { mode: "recipe" | "batch" }) {
     }
   }
   async function clarify(row: PreparedRow) {
-    const choice = await askUserQuestion({
-      question: `Which stage should ${row.clientName} use?`,
-      header: "Confirm stage",
-      options: stages.map((value) => ({ label: stageLabel(value), value })),
-      allowFreeText: false,
-    });
-    if (typeof choice === "string" && stages.includes(choice))
-      await saveRows(
-        rows.map((r) =>
-          r.id === row.id ? { ...r, stage: choice, uncertain: false, uncertainty: "" } : r,
-        ),
-      );
+    const key = `twice-stage:${crypto.randomUUID()}`;
+    setQuestionKey(key);
+    try {
+      const choice = await askUserQuestion({
+        question: `Which stage should ${row.clientName} use?`,
+        header: "Confirm stage",
+        options: stages.map((value) => ({ label: stageLabel(value), value })),
+        allowFreeText: false,
+        stateKey: key,
+      });
+      if (typeof choice === "string" && stages.includes(choice))
+        await saveRows(
+          rows.map((r) =>
+            r.id === row.id ? { ...r, stage: choice, uncertain: false, uncertainty: "" } : r,
+          ),
+        );
+    } finally {
+      setQuestionKey(null);
+    }
   }
   function patch(id: string | undefined, changes: Partial<PreparedRow>) {
     setRows((previous) => previous.map((r) => (r.id === id ? { ...r, ...changes } : r)));
@@ -393,6 +406,7 @@ export function TwiceWorkbench({ mode }: { mode: "recipe" | "batch" }) {
           {busy ? `${busy}…` : notice}
         </p>
       )}
+      {questionKey && <StageQuestion stateKey={questionKey} />}
       {mode === "recipe" ? (
         <>
           <section className="space-y-4 rounded-xl border border-border p-4 md:p-5">
