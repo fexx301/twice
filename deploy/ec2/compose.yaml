@@ -1,0 +1,65 @@
+name: twice
+services:
+  db:
+    image: postgres:17-bookworm
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: twice
+      POSTGRES_USER: twice
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+    secrets: [db_password]
+    volumes: ["${TWICE_DATA_ROOT:-/srv/twice}/postgres:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U twice -d twice"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    mem_limit: 768m
+    networks: [private]
+  migrate:
+    image: ${TWICE_MIGRATION_IMAGE:-twice:migration}
+    profiles: [tools]
+    build: {context: ../.., target: migrate}
+    env_file: [../private/app.env]
+    environment:
+      NODE_ENV: production
+    depends_on:
+      db: {condition: service_healthy}
+    networks: [private]
+    restart: "no"
+  app:
+    image: ${TWICE_IMAGE:-twice:app}
+    build: {context: ../.., target: runtime}
+    restart: unless-stopped
+    env_file: [../private/app.env]
+    environment:
+      NODE_ENV: production
+      PORT: "3000"
+      HOST: 0.0.0.0
+      AGENT_NATIVE_DB_POOL_MAX: "5"
+      NODE_OPTIONS: --max-old-space-size=1536
+    depends_on:
+      db: {condition: service_healthy}
+    init: true
+    mem_limit: 2g
+    networks: [private]
+  caddy:
+    profiles: [public]
+    image: caddy:2
+    restart: unless-stopped
+    environment:
+      TWICE_HOST: ${TWICE_HOST:-localhost}
+    ports: ["80:80", "443:443"]
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ${TWICE_DATA_ROOT:-/srv/twice}/caddy-data:/data
+      - ${TWICE_DATA_ROOT:-/srv/twice}/caddy-config:/config
+    depends_on: [app]
+    mem_limit: 128m
+    networks: [private]
+secrets:
+  db_password:
+    file: ../private/db_password
+networks:
+  private:
+    driver: bridge

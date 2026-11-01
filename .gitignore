@@ -19,3 +19,5 @@ playwright-report/
 data/*.lock
 
 .deploy-tmp/
+
+deploy/private/

@@ -1,0 +1,11 @@
+# Use only while public ports remain closed. SSM forwards host port 8852.
+services:
+  app:
+    ports: ["127.0.0.1:8852:3000"]
+    environment:
+      APP_URL: http://127.0.0.1:8852
+      BETTER_AUTH_URL: http://127.0.0.1:8852
+      AUTH_SIGNUP: open
+      AUTH_REQUIRE_EMAIL_VERIFICATION: "0"
+      ORG_CREATION: open
+      AUTO_CREATE_DEFAULT_ORG: "1"
