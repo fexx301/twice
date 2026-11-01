@@ -31,6 +31,6 @@ This is a running disclosure, not a claim that the full entry has shipped.
 
 ## Still planned; update as verified
 
-Complete cold-sidebar/browser validation, model-unavailable product replay, responsive QA, production build check and Claude/MCP demonstration. Do not present unfinished verification as completed.
+Cold-target cancellation was reproduced and corrected without a Core patch; the earlier generic failure remains an explicit rehearsal risk. Native model-off replay, 390px dark-mode QA, local compilation and signed Claude Code/MCP approval/execution now have evidence in evidence/. Final fresh-start rehearsal and saved-skill/helper comparison remain scheduled; eligibility, recording and submission remain pending.
 
 No deployment, public repository, Clips recording, publication or submission has been made.
