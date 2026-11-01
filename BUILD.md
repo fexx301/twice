@@ -39,3 +39,7 @@ Pitch supported by installed 0.222.2 docs/content/automations.mdx: native Automa
 ## Verified local checkpoint — 2026-11-01 18:24 WAT
 
 631 tests, typecheck and doctor pass; local bundle compiles (production configuration remains unset). Key migration, causal cold-target control, native question correction, model-off replay, signed Claude Code/MCP approval/execution and 390px dark-mode checks are recorded in evidence/. Remaining scheduled work is the comparison, frozen fresh-start rehearsal/review, eligibility and authorized recording/submission work.
+
+## Deployment scope amendment — 2026-11-01 23:32 WAT
+
+Owner selected EC2 + DuckDNS + HTTPS, will manage DNS, requested cost-effective resources and a Nov15 teardown review. Stockholm is the permitted AWS region. Free Tier plan rejected t4g.medium; replacement t4g.small succeeded. Private server i-0c3ab7ec7050236ea, stable IP13.50.127.119, hostname twice-agent.duckdns.org. Public ingress remains gated by owner bootstrap, signup refusal and HTTPS validation. No public Git remote/Clips/submission authorized. Runtime dependency packaging error found after owner signup; database preserved, corrected image passed authenticated SSR locally, cloud update in progress.

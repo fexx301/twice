@@ -1,0 +1,7 @@
+# Private post-bootstrap verification: base auth policy, same loopback origin.
+services:
+  app:
+    ports: ["127.0.0.1:8852:3000"]
+    environment:
+      APP_URL: http://127.0.0.1:8852
+      BETTER_AUTH_URL: http://127.0.0.1:8852

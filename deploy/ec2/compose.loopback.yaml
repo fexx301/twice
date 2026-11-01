@@ -1,4 +1,4 @@
 # SSM-only inspection with base production auth policy; never opens a public port.
 services:
   app:
-    ports: ["127.0.0.1:8852:3000"]
+    ports: ["127.0.0.1:${TWICE_INSPECTION_PORT:-8852}:3000"]

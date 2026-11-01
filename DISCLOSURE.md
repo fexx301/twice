@@ -15,6 +15,7 @@ This is a running disclosure, not a claim that the full entry has shipped.
 - Provider adapters added for the probe: AI SDK 6, `@ai-sdk/openai`, and `@openrouter/ai-sdk-provider@2.10.0`. Twice's selected agent model is pinned to `openai/gpt-5.4-mini` through OpenRouter.
 - Initial font, favicon, Agent-Native marks and CRM icons come from the generated template and its dependencies (`@fontsource-variable/inter`, Tabler icons). No stock photos, generated images or external customer data were added.
 - Sample clients and messages are synthetic and must be labelled as sample data. They are not evidence of adoption.
+- Deployment uses official Node24 Debian slim, PostgreSQL17 Debian and Caddy2 images, Ubuntu24.04 ARM64, Docker Compose and AWS EC2/SSM/S3. These are existing infrastructure; Twice added Docker stages, private bootstrap/public Compose configuration, Caddy routing, CloudFormation and backup scripts. Pruned production dependencies are included to support authenticated SSR. No new visual assets were added for deployment.
 
 ## Event work completed
 
@@ -33,4 +34,4 @@ This is a running disclosure, not a claim that the full entry has shipped.
 
 Cold-target cancellation was reproduced and corrected without a Core patch; the earlier generic failure remains an explicit rehearsal risk. Native model-off replay, 390px dark-mode QA, local compilation and signed Claude Code/MCP approval/execution now have evidence in evidence/. Final fresh-start rehearsal and saved-skill/helper comparison remain scheduled; eligibility, recording and submission remain pending.
 
-No deployment, public repository, Clips recording, publication or submission has been made.
+November 1: owner-authorized private EC2 provisioning and HTTPS publication at https://twice-agent.duckdns.org; normal owner account preserved through a runtime packaging repair. Public signup is closed; the application requires sign-in. No public repository, push, Clips recording, posting or hackathon submission has been made.

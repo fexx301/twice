@@ -17,7 +17,7 @@ Twice teaches one bounded native CRM onboarding demonstration, then uses the age
 
 Never call an LLM inside an action. UI preparation uses sendToAgentChat and useAgentChatGenerating. An uncertain stage is resolved with the native askUserQuestion UI; it stays blocked until confirmed. Read persisted rows/results before claiming completion. A started row never runs again, even if failed or interrupted; do not reset it, clone it automatically or promise rollback. A fresh batch is only for genuinely new clients.
 
-No deployment, public repo, push, recording, posting or submission without the owner’s separate go-ahead. Secrets remain outside git. Keep the OpenRouter model pinned to `openai/gpt-5.4-mini`.
+The owner authorized EC2 + DuckDNS + HTTPS deployment on Nov 1. Keep it owner-only, with private bootstrap before public ingress. Public repo, push, recording, posting and submission still require separate go-ahead. Secrets remain outside git. Keep the OpenRouter model pinned to `openai/gpt-5.4-mini`.
 
 ## Underlying CRM guide
 

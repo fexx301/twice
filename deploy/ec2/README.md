@@ -1,17 +1,17 @@
 # Temporary EC2 demo deployment
 
-Selected by the owner: EC2 + stable public IP + owner-managed DuckDNS + HTTPS. Review teardown on November 15 after judging; back up before removal. No cloud resource has been created at this checkpoint.
+Selected by the owner: EC2 + stable public IP + owner-managed DuckDNS + HTTPS. Live at https://twice-agent.duckdns.org on November 1. Review teardown on November 15 after judging; back up before removal.
 
 ## Proposed resources and cost
 
 One ARM64 t4g.small (2 vCPU/2 GiB), standard CPU credits to avoid unlimited-credit charges, encrypted gp3 storage, one Elastic IP, SSM administration, no public SSH. Only Caddy's 80/443 become public after identity setup. PostgreSQL and Node have no public listeners. Single-host downtime is an accepted demo limitation, not high availability.
 
-AWS Pricing API verified Stockholm Linux t4g.medium at $0.0344/hour: $25.11/730h or $11.56/336h. IPv4 at $0.005/hour adds $3.65/$1.68. 30 GiB gp3 storage and backups/transfer are additional; estimated total around $30–35/month, to be recalculated for the approved region. No NAT gateway, load balancer or RDS is proposed.
+AWS Pricing API verified Stockholm Linux t4g.small at $0.0172/hour: $12.56/730h or $5.78/336h. Public IPv4 adds $3.65/$1.68; 30GiB gp3, private artifacts/backups and transfer are additional. Estimated list-price total around $19–22/month or $9–12 for two weeks; account credits may cover eligible usage, not assumed. No NAT gateway, load balancer or RDS is used.
 
 ## Packaging and identity
 
 - Build on Linux ARM64 with the lockfile; never copy macOS node_modules. The Linux ARM64 runtime image built successfully; PostgreSQL 17 migrations and private HTTP startup passed locally. Build memory may require encrypted swap; no compatibility claim yet.
-- Root Dockerfile follows the installed framework's Docker guide. Runtime runs unprivileged and contains only the built output. The migration target retains source/tools; run the existing pnpm migrate:production once against the fresh production database before starting app.
+- Root Dockerfile follows the installed framework's Docker guide. Runtime runs unprivileged and contains the built output plus pruned Linux production dependencies required by SSR. The migration target retains source/tools; run the existing pnpm migrate:production once against the fresh production database before starting app.
 - Compose stores Postgres and Caddy state in host directories on encrypted EBS, outside containers. Root/private app.env and db_password are 0600. Never upload local .env, data, MCP configuration or eval outputs. Deploy only a clean private source archive; no public repository or git remote is needed.
 - Bootstrap owner through the normal password UI over a private SSM port-forward to 127.0.0.1:8852, while public ingress remains closed. The owner enters their own password. Create the owner workspace privately, then stop bootstrap mode.
 - Public mode uses AUTH_SIGNUP=invited with no public invitation/bootstrap admission, ORG_CREATION=closed and no automatic organization creation. Test that new signup is refused and existing owner login works. No email allowlist is treated as verification.
@@ -29,3 +29,21 @@ The organization restriction was regional. Existing default CLI credentials work
 Private provisioning uses Ubuntu 24.04 ARM64 from the regional Canonical public SSM parameter, verified as ami-0335270b14f48b820. t4g.small is explicitly listed as Free Tier eligible. The previous t4g.medium attempt was rejected by the account Free Tier plan and rolled back. Public ingress stays closed until bootstrap and refusal checks pass. The owner handles DuckDNS and will receive the Elastic IP first.
 
 Local production rehearsal passed: ARM64 image, PostgreSQL17 migrations, unauthenticated401, private signup/sample rows, closed signup403, existing-owner login200 and five rows afterrestart. Measured idle memory app156MiB +DB48MiB. Selected small runtime limits app1200MiB/Nodeheap768MiB,DB512MiB,2GiB encrypted swap.
+
+Runtime packaging correction: `.output` alone omitted React required by authenticated SSR in this framework build. Dockerfile now copies pruned production dependencies and package metadata, verified with preserved-owner login plus authenticated `/batches` HTTP200, then deployed without changing the database.
+
+## Live operations
+
+`prepare-host.sh` records initial private bootstrap, not an upgrade command. Its original runtime artifact was later replaced by `artifacts/twice-runtime-fixed.tar.gz`; do not rerun bootstrap over the live service.
+
+Stack `twice-demo-small-2026`, instance `i-0c3ab7ec7050236ea`, Elastic IP `13.50.127.119`, region `eu-north-1`. SSM only, no SSH. Host release: `/srv/twice/release`. Canonical public startup (never include bootstrap/inspect overrides):
+
+```sh
+TWICE_IMAGE=twice:ec2-review TWICE_HOST=twice-agent.duckdns.org docker compose -f deploy/ec2/compose.yaml --profile public up -d --no-build app caddy
+```
+
+Public checks passed: trusted HTTPS, HTTP308 redirect, anonymous action401 and uninvited signup403. Owner dashboard was verified privately after the SSR repair; public owner login and Personal model-key setup are the next checks. The app and DB have no host port mappings in public mode.
+
+Daily root cron at 01:15 UTC runs `/srv/twice/backup.sh`; private encrypted S3 bucket `twice-demo-small-2026-artifacts-uouv3jytpvzc`, prefix `backups/`. The first custom-format dump restored into a scratch database with all five sample rows, then the scratch database was removed. This verifies the local dump, not an S3-download recovery drill. Preserve the separate production encryption-key recovery copy: DB backups alone cannot decrypt saved keys.
+
+Before Nov15 teardown: take and verify a final backup, preserve required evidence and recovery keys, then remove the stack and explicitly review its retained encrypted EBS volume and S3 bucket plus Elastic IP. Retained storage continues to cost money. No teardown has been executed.
