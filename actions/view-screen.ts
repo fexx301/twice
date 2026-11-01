@@ -5,10 +5,7 @@ import { accessFilter } from "@agent-native/core/sharing";
 import { and, asc, desc, eq } from "drizzle-orm";
 import { z } from "zod";
 
-import {
-  createConnectedCrmAdapter,
-  isConnectedCrmProvider,
-} from "../server/crm/adapter.js";
+import { createConnectedCrmAdapter, isConnectedCrmProvider } from "../server/crm/adapter.js";
 import { createNativeCrmAdapter } from "../server/crm/native-adapter.js";
 import { loadVerifiedReadThroughRecord } from "../server/crm/read-through.js";
 import {
@@ -22,6 +19,7 @@ import {
   listCrmTasks,
 } from "../server/db/crm-store.js";
 import { crmDashboardStore, getDb, schema } from "../server/db/index.js";
+import { workspace } from "../server/twice/store.js";
 import { loadCrmSavedView, queryCrmRecords } from "../server/lib/crm-query.js";
 import {
   parseCrmNavigationSelection,
@@ -40,6 +38,8 @@ export default defineAction({
       view?: CrmView;
       path?: string;
       recordId?: string;
+      recipeId?: string;
+      batchId?: string;
       viewId?: string;
       dashboardId?: string;
       query?: string;
@@ -52,6 +52,16 @@ export default defineAction({
     const selection = resolveSelection(navigation, parsed);
     const actorEmail = ctx?.userEmail ?? getRequestUserEmail() ?? null;
     const screen: Record<string, unknown> = { navigation, url, selection };
+
+    if (["recipes", "recipe", "batches", "batch"].includes(navigation?.view ?? "")) {
+      return {
+        ...screen,
+        twice: await workspace(
+          { recipeId: navigation?.recipeId, batchId: navigation?.batchId },
+          ctx,
+        ),
+      };
+    }
 
     switch (navigation?.view) {
       case "record":
@@ -71,10 +81,7 @@ export default defineAction({
       case "records":
         screen.records = await queryCrmRecords(
           {
-            kind:
-              navigation.view === "records"
-                ? (selection.kind ?? "account")
-                : navigation.view,
+            kind: navigation.view === "records" ? (selection.kind ?? "account") : navigation.view,
             ...(selection.query ? { query: selection.query } : {}),
             ...(selection.viewId ? { viewId: selection.viewId } : {}),
             limit: 50,
@@ -91,10 +98,7 @@ export default defineAction({
         if (selection.viewId) {
           const view = await loadCrmSavedView(selection.viewId);
           screen.activeView = view;
-          screen.records = await queryCrmRecords(
-            { viewId: view.id, limit: 50 },
-            { actorEmail },
-          );
+          screen.records = await queryCrmRecords({ viewId: view.id, limit: 50 }, { actorEmail });
         } else if (selection.listId) {
           screen.activeList = await visibleList(selection.listId);
         }
@@ -114,8 +118,7 @@ export default defineAction({
           screen.dashboards = dashboards;
           screen.dashboard = selection.dashboardId
             ? (dashboards.find(
-                (dashboard: { id: string }) =>
-                  dashboard.id === selection.dashboardId,
+                (dashboard: { id: string }) => dashboard.id === selection.dashboardId,
               ) ?? null)
             : (dashboards[0] ?? null);
         }
@@ -194,10 +197,7 @@ async function visibleLists() {
     .select(LIST_COLUMNS)
     .from(schema.crmLists)
     .where(
-      and(
-        eq(schema.crmLists.archived, false),
-        accessFilter(schema.crmLists, schema.crmListShares),
-      ),
+      and(eq(schema.crmLists.archived, false), accessFilter(schema.crmLists, schema.crmListShares)),
     )
     .orderBy(asc(schema.crmLists.position), asc(schema.crmLists.createdAt))
     .limit(50);
@@ -207,12 +207,7 @@ async function visibleList(listId: string) {
   const [list] = await getDb()
     .select(LIST_COLUMNS)
     .from(schema.crmLists)
-    .where(
-      and(
-        eq(schema.crmLists.id, listId),
-        accessFilter(schema.crmLists, schema.crmListShares),
-      ),
-    )
+    .where(and(eq(schema.crmLists.id, listId), accessFilter(schema.crmLists, schema.crmListShares)))
     .limit(1);
   return list ?? null;
 }
@@ -226,8 +221,7 @@ async function readVisibleRecord(recordId: string, ctx?: ActionRunContext) {
           connectionId: context.connectionId,
           accessTier: "viewer",
         })
-      : isConnectedCrmProvider(context.provider) &&
-          context.workspaceConnectionId
+      : isConnectedCrmProvider(context.provider) && context.workspaceConnectionId
         ? await createConnectedCrmAdapter({
             provider: context.provider,
             connectionId: context.workspaceConnectionId,
@@ -287,9 +281,7 @@ async function visibleSignalTrackers() {
       isDefault: schema.crmSignalTrackers.isDefault,
     })
     .from(schema.crmSignalTrackers)
-    .where(
-      accessFilter(schema.crmSignalTrackers, schema.crmSignalTrackerShares),
-    )
+    .where(accessFilter(schema.crmSignalTrackers, schema.crmSignalTrackerShares))
     .orderBy(asc(schema.crmSignalTrackers.name));
   return trackers.map((tracker) => ({
     ...tracker,
@@ -302,9 +294,7 @@ function safeKeywords(value: string): string[] {
   try {
     const parsed = JSON.parse(value) as unknown;
     return Array.isArray(parsed)
-      ? parsed.filter(
-          (keyword): keyword is string => typeof keyword === "string",
-        )
+      ? parsed.filter((keyword): keyword is string => typeof keyword === "string")
       : [];
   } catch {
     return [];

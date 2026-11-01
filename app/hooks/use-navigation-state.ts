@@ -15,6 +15,8 @@ export interface CrmNavigationState {
   view: CrmView;
   path: string;
   recordId?: string;
+  recipeId?: string;
+  batchId?: string;
   viewId?: string;
   query?: string;
   settingsSection?: CrmSettingsSection;
@@ -34,8 +36,12 @@ export function useNavigationState() {
       return {
         view: viewFromPath(pathname),
         path: appPath(`${pathname}${search}`),
-        recordId: recordMatch?.[1]
-          ? decodeURIComponent(recordMatch[1])
+        recordId: recordMatch?.[1] ? decodeURIComponent(recordMatch[1]) : undefined,
+        recipeId: pathname.startsWith("/recipes/")
+          ? decodeURIComponent(pathname.split("/")[2])
+          : undefined,
+        batchId: pathname.startsWith("/batches/")
+          ? decodeURIComponent(pathname.split("/")[2])
           : undefined,
         viewId: params.get("view") ?? undefined,
         dashboardId: params.get("id") ?? undefined,

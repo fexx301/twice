@@ -14,22 +14,16 @@ export default defineAction({
     "Navigate the CRM UI to work, the record grid, one record, lists, a saved view, a list or view board, tasks, proposals, a dashboard, Ask CRM, setup, or one settings tab.",
   schema: z.object({
     view: z.enum(CRM_VIEWS),
-    recordId: z
-      .string()
-      .trim()
-      .min(1)
-      .max(200)
-      .optional()
-      .describe("Required for view=record."),
+    recipeId: z.string().min(1).max(128).optional().describe("Required for view=recipe."),
+    batchId: z.string().min(1).max(128).optional().describe("Required for view=batch."),
+    recordId: z.string().trim().min(1).max(200).optional().describe("Required for view=record."),
     listId: z
       .string()
       .trim()
       .min(1)
       .max(200)
       .optional()
-      .describe(
-        "Opens that list on the /views surface. A board needs this or viewId.",
-      ),
+      .describe("Opens that list on the /views surface. A board needs this or viewId."),
     viewId: z
       .string()
       .trim()
@@ -38,10 +32,7 @@ export default defineAction({
       .optional()
       .describe("Saved view to open. A board needs this or listId."),
     dashboardId: z.string().trim().min(1).max(200).optional(),
-    kind: z
-      .enum(CRM_RECORD_KINDS)
-      .optional()
-      .describe("Record kind tab for view=records."),
+    kind: z.enum(CRM_RECORD_KINDS).optional().describe("Record kind tab for view=records."),
     query: z.string().trim().max(200).optional(),
     settingsSection: z
       .enum(CRM_SETTINGS_SECTIONS)

@@ -21,6 +21,10 @@ export const CRM_RECORD_KINDS = ["account", "person", "opportunity"] as const;
 export type CrmRecordKind = (typeof CRM_RECORD_KINDS)[number];
 
 export const CRM_VIEWS = [
+  "recipes",
+  "recipe",
+  "batches",
+  "batch",
   "work",
   "account",
   "person",
@@ -41,6 +45,10 @@ export const CRM_VIEWS = [
 export type CrmView = (typeof CRM_VIEWS)[number];
 
 export const CRM_VIEW_PATHS: Record<Exclude<CrmView, "record">, string> = {
+  recipes: "/recipes",
+  recipe: "/recipes",
+  batches: "/batches",
+  batch: "/batches",
   work: "/home",
   account: "/accounts",
   person: "/people",
@@ -59,6 +67,8 @@ export const CRM_VIEW_PATHS: Record<Exclude<CrmView, "record">, string> = {
 
 export interface CrmNavigationTarget {
   view?: string;
+  recipeId?: string;
+  batchId?: string;
   recordId?: string;
   listId?: string;
   viewId?: string;
@@ -69,6 +79,10 @@ export interface CrmNavigationTarget {
 }
 
 export function viewFromPath(pathname: string): CrmView {
+  if (pathname.startsWith("/recipes/")) return "recipe";
+  if (pathname.startsWith("/recipes")) return "recipes";
+  if (pathname.startsWith("/batches/")) return "batch";
+  if (pathname.startsWith("/batches")) return "batches";
   if (pathname.startsWith("/records/")) return "record";
   if (pathname.startsWith("/records")) return "records";
   if (pathname.startsWith("/accounts")) return "account";
@@ -86,6 +100,14 @@ export function viewFromPath(pathname: string): CrmView {
 }
 
 export function crmNavigationPath(target: CrmNavigationTarget): string {
+  if (target.view === "recipe") {
+    if (!target.recipeId) throw new Error("recipeId is required for a recipe.");
+    return `/recipes/${encodeURIComponent(target.recipeId)}`;
+  }
+  if (target.view === "batch") {
+    if (!target.batchId) throw new Error("batchId is required for a batch.");
+    return `/batches/${encodeURIComponent(target.batchId)}`;
+  }
   if (target.view === "record") {
     if (!target.recordId) {
       throw new Error("recordId is required when navigating to a CRM record.");
@@ -104,12 +126,9 @@ export function crmNavigationPath(target: CrmNavigationTarget): string {
   }
 
   const params = new URLSearchParams();
-  let base =
-    CRM_VIEW_PATHS[target.view as Exclude<CrmView, "record">] ?? "/home";
+  let base = CRM_VIEW_PATHS[target.view as Exclude<CrmView, "record">] ?? "/home";
   if (
-    (target.view === "views" ||
-      target.view === "board" ||
-      target.view === "lists") &&
+    (target.view === "views" || target.view === "board" || target.view === "lists") &&
     (target.viewId || target.listId)
   ) {
     base = "/views";
@@ -173,8 +192,6 @@ function isRecordKind(value: string | null): value is CrmRecordKind {
   return CRM_RECORD_KINDS.includes(value as CrmRecordKind);
 }
 
-function isSettingsSection(
-  value: string | undefined,
-): value is CrmSettingsSection {
+function isSettingsSection(value: string | undefined): value is CrmSettingsSection {
   return CRM_SETTINGS_SECTIONS.includes(value as CrmSettingsSection);
 }

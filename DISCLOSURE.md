@@ -24,8 +24,11 @@ This is a running disclosure, not a claim that the full entry has shipped.
 
 - October 31: added scoped Twice storage and shared authoring/preview/run actions, immutable History-backed accepted recipe versions, exact preview payloads, per-row durable claims, native Progress, and deterministic composition of the three CRM actions. Added integration coverage for fresh links, concurrency, stale previews, access, History substitution and partial failures. Core remains unmodified.
 
-## Still planned; update as implemented
+- October 31–November 1: added the recipe/batch workbench, native agent turns for parameter and email preparation, native table widget and question UI, action output contracts, route/app-state parity, immutable-version history, and dark/narrow layouts. Used existing Toolkit controls; no new art assets. Real parameter and preparation turns were observed locally.
+- November 1: independent Astra/medium review found stale-source and persistence-reporting bugs; corrected them and added regressions. 631 tests and typecheck passed. The corrected real-agent messy-email eval passed in an isolated database (manual lower-level agent/action integration, not the framework's read-only production-chat CI gate). No generated template or Core runtime code was patched.
 
-Agent preparation, review workbench, MCP demonstration and the messy-email eval. Do not describe these as completed until implementation and evidence are recorded here and in the event note.
+## Still planned; update as verified
+
+Complete cold-sidebar/browser validation, model-unavailable product replay, responsive QA, production build check and Claude/MCP demonstration. Do not present unfinished verification as completed.
 
 No deployment, public repository, Clips recording, publication or submission has been made.

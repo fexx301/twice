@@ -1,9 +1,6 @@
 import { configureTracking } from "@agent-native/core/client/analytics";
 import { appPath } from "@agent-native/core/client/api-path";
-import {
-  createAgentNativeQueryClient,
-  useDbSync,
-} from "@agent-native/core/client/hooks";
+import { createAgentNativeQueryClient, useDbSync } from "@agent-native/core/client/hooks";
 import { getLocaleInitScript } from "@agent-native/core/client/i18n";
 import { getThemeInitScript } from "@agent-native/core/client/ui";
 import { AppProviders } from "@agent-native/toolkit/app/providers";
@@ -24,24 +21,19 @@ import stylesheet from "./global.css?url";
 configureTracking({
   getDefaultProps: (_name, properties) => ({
     ...properties,
-    app: "crm-probe",
+    app: "twice",
     template: "crm",
   }),
 });
 
-export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: stylesheet },
-];
+export const links: LinksFunction = () => [{ rel: "stylesheet", href: stylesheet }];
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
         <meta charSet="utf-8" />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
-        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <script
           data-agent-native-theme-init
           suppressHydrationWarning

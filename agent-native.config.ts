@@ -1,3 +1,2 @@
-export default {
-  changelog: { enabled: true },
-};
+import { defineAgentNativeConfig } from "@agent-native/core/config";
+export default defineAgentNativeConfig({ changelog: { enabled: true } });

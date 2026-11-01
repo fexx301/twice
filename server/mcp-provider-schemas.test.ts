@@ -14,7 +14,10 @@ describe("CRM MCP catalogs", () => {
   let template: TemplateMcpConformance;
 
   beforeAll(async () => {
-    template = await loadTemplateMcpConformance(projectRoot);
+    template = await loadTemplateMcpConformance(
+      projectRoot,
+      (path) => import(/* @vite-ignore */ path),
+    );
   }, 180_000);
 
   it.each(templateMcpCatalogModes(projectRoot))(
@@ -22,9 +25,7 @@ describe("CRM MCP catalogs", () => {
     async (mode) => {
       const tools = await template.listCatalog(mode);
       expect(tools.length).toBeGreaterThan(0);
-      expect(tools.flatMap((tool) => providerSchemaViolations(tool))).toEqual(
-        [],
-      );
+      expect(tools.flatMap((tool) => providerSchemaViolations(tool))).toEqual([]);
     },
     60_000,
   );

@@ -6,13 +6,11 @@ import {
   useAgentChatHomeHandoffLinks,
   type AssistantChatHistoryVersion,
 } from "@agent-native/core/client/agent-chat";
+import { RunsTray } from "@agent-native/toolkit/app/progress";
 import { useT } from "@agent-native/core/client/i18n";
 import { buildSettingsRoute } from "@agent-native/core/client/navigation";
 import { focusAgentChat } from "@agent-native/toolkit/app/chat";
-import {
-  AgentSidebar,
-  AgentToggleButton,
-} from "@agent-native/toolkit/app/chat";
+import { AgentSidebar, AgentToggleButton } from "@agent-native/toolkit/app/chat";
 import { type AssistantChatHistoryConfig } from "@agent-native/toolkit/app/chat/chat/history-types";
 import { openCommandMenu } from "@agent-native/toolkit/app/shared";
 import { IconMenu2, IconSearch } from "@tabler/icons-react";
@@ -21,12 +19,7 @@ import { useLocation, useNavigate } from "react-router";
 
 import { CrmSidebar } from "@/components/layout/CrmSidebar";
 import { Button } from "@/components/ui/button";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetTitle,
-} from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/ui/sheet";
 import { crmAskThreadPath, isCrmAskPath } from "@/lib/ask-route";
 import { TAB_ID } from "@/lib/tab-id";
 
@@ -41,9 +34,7 @@ export function CrmLayout({ children }: { children: React.ReactNode }) {
   // Settings brings its own navigation, header, and agent-panel toggle, so it
   // replaces CRM's sidebar and mobile header instead of nesting inside them.
   const fullWidthSettings = isCrmSettingsRoute(location.pathname);
-  const dashboardChatHistory = useMemo<
-    AssistantChatHistoryConfig | undefined
-  >(() => {
+  const dashboardChatHistory = useMemo<AssistantChatHistoryConfig | undefined>(() => {
     if (location.pathname !== "/dashboard") return undefined;
     const dashboardId = new URLSearchParams(location.search).get("id");
     if (!dashboardId) return undefined;
@@ -52,9 +43,7 @@ export function CrmLayout({ children }: { children: React.ReactNode }) {
         action: "list-crm-dashboard-revisions",
         args: { id: dashboardId },
         getVersions: (result: unknown) =>
-          Array.isArray(result)
-            ? result.filter(isAssistantChatHistoryVersion)
-            : null,
+          Array.isArray(result) ? result.filter(isAssistantChatHistoryVersion) : null,
       },
       restore: {
         action: "restore-crm-dashboard-revision",
@@ -98,7 +87,7 @@ export function CrmLayout({ children }: { children: React.ReactNode }) {
           >
             <IconMenu2 className="size-4" />
           </Button>
-          <p className="text-sm font-semibold">CRM</p>
+          <p className="text-sm font-semibold">Twice</p>
           <Button
             type="button"
             variant="ghost"
@@ -120,6 +109,7 @@ export function CrmLayout({ children }: { children: React.ReactNode }) {
         }
       >
         {children}
+        <RunsTray />
       </main>
     </div>
   );
@@ -131,9 +121,7 @@ export function CrmLayout({ children }: { children: React.ReactNode }) {
       </div>
       <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
         <SheetContent side="left" className="w-[260px] p-0">
-          <SheetTitle className="sr-only">
-            {t("navigation.navigation")}
-          </SheetTitle>
+          <SheetTitle className="sr-only">{t("navigation.navigation")}</SheetTitle>
           <SheetDescription className="sr-only">
             {t("navigation.navigationDescription")}
           </SheetDescription>
@@ -165,16 +153,13 @@ export function CrmLayout({ children }: { children: React.ReactNode }) {
         chatHistory={dashboardChatHistory}
         onFullscreenRequest={(threadId?: string) => {
           focusAgentChat();
-          navigateWithAgentChatViewTransition(
-            navigate,
-            crmAskThreadPath(threadId ?? null),
-          );
+          navigateWithAgentChatViewTransition(navigate, crmAskThreadPath(threadId ?? null));
         }}
-        emptyStateText="Ask CRM about your connected records"
+        emptyStateText="Prepare clients from notes, then review before running"
         suggestions={[
-          "What needs follow-up?",
-          "Summarize this account",
-          "Which opportunities need attention?",
+          "Prepare the clients in this batch",
+          "Explain the saved onboarding recipe",
+          "Which clients need my review?",
         ]}
         agentPageHref={buildSettingsRoute("agent")}
       >

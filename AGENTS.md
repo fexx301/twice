@@ -1,4 +1,25 @@
-# CRM — Agent Guide
+# Twice — Agent Guide
+
+Twice teaches one bounded native CRM onboarding demonstration, then uses the agent to prepare up to five client inputs from notes. A person corrects/confirms them; deterministic code replays the accepted version. Read `.agents/skills/twice/SKILL.md` before Twice work. The CRM template guide below remains authoritative for underlying CRM semantics.
+
+## Twice actions and shared UI
+
+| Action                                     | UI and agent capability                                                                                 |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------------- |
+| `initialize-twice` / `get-twice-workspace` | Private labelled sample drafts; recipe/batch reads                                                      |
+| `save-demonstration`                       | Opt-in native action input/result capture, append-only                                                  |
+| `save-parameter-proposal`                  | Agent judgement or human edits to two allowed literal paths                                             |
+| `save-recipe-version`                      | Accept immutable History Kit version; approval required                                                 |
+| `save-batch-rows`                          | Save agent-prepared or human-edited rows; native data-table widget; confirm requires approval           |
+| `preview-batch`                            | Exact frozen current version and row inputs, ready/blocked verdicts                                     |
+| `run-batch`                                | Approved server-side model-free replay, Progress, durable outcomes; exposed to MCP with batch deep link |
+| `navigate` / `view-screen`                 | Recipe/batch navigation and scoped data, synced tab app-state                                           |
+
+Never call an LLM inside an action. UI preparation uses sendToAgentChat and useAgentChatGenerating. An uncertain stage is resolved with the native askUserQuestion UI; it stays blocked until confirmed. Read persisted rows/results before claiming completion. A started row never runs again, even if failed or interrupted; do not reset it, clone it automatically or promise rollback. A fresh batch is only for genuinely new clients.
+
+No deployment, public repo, push, recording, posting or submission without the owner’s separate go-ahead. Secrets remain outside git. Keep the OpenRouter model pinned to `openai/gpt-5.4-mini`.
+
+## Underlying CRM guide
 
 CRM is a typed, bitemporal system whose grid is the product: Native SQL or a scoped HubSpot/Salesforce lens, with shared UI and agent actions.
 
@@ -28,15 +49,15 @@ Use local docs only (no web research): `pnpm action docs-search --query "<topic>
 
 Use `tool-search` for the full action surface.
 
-| Action | Purpose |
-| --- | --- |
-| `get-crm-workspace` / `get-crm-overview` | Start with identity, records, tasks, proposals, signals, and health |
-| `list-crm-attributes` / `create-crm-attribute` / `update-crm-attribute` / `manage-crm-attribute-option` | Read or author typed schema/options |
-| `list-crm-records` / `list-crm-record-values` / `get-crm-record` / `create-crm-record` / `update-crm-record` | Read and mutate records |
-| `list-crm-lists` / `create-crm-list` / `list-crm-list-entries` / `add-crm-record-to-list` / `update-crm-list-entry` | Manage workflow lists; stage moves update entries |
-| `list-crm-proposals` / `apply-crm-proposals` | Review provider changes and hand them off |
-| `estimate-crm-enrichment` / `run-crm-enrichment` | Estimate, verify, then run the gated paid job |
-| `provider-api-catalog` / `provider-api-docs` / `provider-api-request` | Exact provider reads not expressed by an action |
+| Action                                                                                                              | Purpose                                                             |
+| ------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `get-crm-workspace` / `get-crm-overview`                                                                            | Start with identity, records, tasks, proposals, signals, and health |
+| `list-crm-attributes` / `create-crm-attribute` / `update-crm-attribute` / `manage-crm-attribute-option`             | Read or author typed schema/options                                 |
+| `list-crm-records` / `list-crm-record-values` / `get-crm-record` / `create-crm-record` / `update-crm-record`        | Read and mutate records                                             |
+| `list-crm-lists` / `create-crm-list` / `list-crm-list-entries` / `add-crm-record-to-list` / `update-crm-list-entry` | Manage workflow lists; stage moves update entries                   |
+| `list-crm-proposals` / `apply-crm-proposals`                                                                        | Review provider changes and hand them off                           |
+| `estimate-crm-enrichment` / `run-crm-enrichment`                                                                    | Estimate, verify, then run the gated paid job                       |
+| `provider-api-catalog` / `provider-api-docs` / `provider-api-request`                                               | Exact provider reads not expressed by an action                     |
 
 Before building common workspace or agent UI, read `agent-native-toolkit`; for supported customization, read `customizing-agent-native`.
 

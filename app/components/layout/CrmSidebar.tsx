@@ -11,6 +11,7 @@ import {
 } from "@agent-native/toolkit/app/shared";
 import {
   IconAlertTriangle,
+  IconRepeat,
   IconBuilding,
   IconChartBar,
   IconChecklist,
@@ -63,16 +64,12 @@ const primaryNav = [
   { to: "/dashboard", labelKey: "navigation.dashboard", icon: IconChartBar },
 ];
 
-const footerNav = [
-  { to: "/ask", labelKey: "navigation.askCrm", icon: IconMessageCircle },
-];
+const footerNav = [{ to: "/ask", labelKey: "navigation.askCrm", icon: IconMessageCircle }];
 
 export function CrmSidebar({ onNavigate }: { onNavigate?: () => void }) {
   const t = useT();
   const location = useLocation();
-  const [collapsed, setCollapsed] = useState(() =>
-    readSidebarCollapsed(getCollapseStorage()),
-  );
+  const [collapsed, setCollapsed] = useState(() => readSidebarCollapsed(getCollapseStorage()));
 
   useEffect(() => {
     writeSidebarCollapsed(getCollapseStorage(), collapsed);
@@ -96,16 +93,31 @@ export function CrmSidebar({ onNavigate }: { onNavigate?: () => void }) {
   const loadFailed = listsQuery.isError || viewsQuery.isError;
   const settled = !listsQuery.isPending && !viewsQuery.isPending;
 
-  const items: AppSidebarItemDefinition[] = primaryNav.map((item) => ({
+  const crmItems: AppSidebarItemDefinition[] = primaryNav.map((item) => ({
     to: item.to,
     label: t(item.labelKey),
     icon: item.icon,
-    active: item.end
-      ? location.pathname === "/home"
-      : location.pathname.startsWith(item.to),
+    active: item.end ? location.pathname === "/home" : location.pathname.startsWith(item.to),
     onClick: onNavigate,
   }));
 
+  const items: AppSidebarItemDefinition[] = [
+    {
+      to: "/batches",
+      label: "Client batches",
+      icon: IconTable,
+      active: location.pathname.startsWith("/batches"),
+      onClick: onNavigate,
+    },
+    {
+      to: "/recipes",
+      label: "Onboarding recipe",
+      icon: IconRepeat,
+      active: location.pathname.startsWith("/recipes"),
+      onClick: onNavigate,
+    },
+    ...crmItems.filter((item) => ["/accounts", "/lists", "/tasks"].includes(item.to ?? "")),
+  ];
   const secondaryItems: AppSidebarItemDefinition[] = footerNav.map((item) => ({
     to: item.to,
     label: t(item.labelKey),
@@ -114,9 +126,7 @@ export function CrmSidebar({ onNavigate }: { onNavigate?: () => void }) {
     onClick: onNavigate,
   }));
 
-  const feedbackButton = (
-    <FeedbackButton variant={collapsed ? "icon" : "sidebar"} side="right" />
-  );
+  const feedbackButton = <FeedbackButton variant={collapsed ? "icon" : "sidebar"} side="right" />;
 
   const orgSwitcher = <OrgSwitcher compact={collapsed} reserveSpace />;
 
@@ -124,9 +134,9 @@ export function CrmSidebar({ onNavigate }: { onNavigate?: () => void }) {
     <AppSidebar
       collapsed={collapsed}
       onCollapsedChange={setCollapsed}
-      brandName="CRM"
+      brandName="Twice"
       appId="crm"
-      brandHref="/home"
+      brandHref="/batches"
       items={items}
       secondaryItems={secondaryItems}
       feedback={feedbackButton}
@@ -176,9 +186,7 @@ export function CrmSidebar({ onNavigate }: { onNavigate?: () => void }) {
             <IconAlertTriangle className="size-4 shrink-0" />
             {!collapsed && (
               <>
-                <span className="min-w-0 flex-1">
-                  {t("navigation.listsLoadFailed")}
-                </span>
+                <span className="min-w-0 flex-1">{t("navigation.listsLoadFailed")}</span>
                 <Button
                   type="button"
                   variant="ghost"
@@ -194,10 +202,7 @@ export function CrmSidebar({ onNavigate }: { onNavigate?: () => void }) {
               </>
             )}
           </div>
-        ) : settled &&
-          lists.length === 0 &&
-          unpinnedViews.length === 0 &&
-          !collapsed ? (
+        ) : settled && lists.length === 0 && unpinnedViews.length === 0 && !collapsed ? (
           <p className="px-2 py-1 text-xs text-sidebar-foreground/50">
             {t("navigation.listsEmpty")}
           </p>

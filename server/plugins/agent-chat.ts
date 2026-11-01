@@ -1,3 +1,4 @@
+import { TWICE_AGENT_INSTRUCTIONS } from "../twice/agent-instructions.js";
 import { getOrgContext } from "@agent-native/core/org";
 import {
   createAgentChatPlugin,
@@ -10,55 +11,25 @@ import actionsRegistry from "../../.generated/actions-registry.js";
 import { CRM_CONNECTOR_CATALOG } from "../lib/crm-connector-catalog.js";
 
 const INITIAL_TOOL_NAMES = [
-  "get-crm-workspace",
-  "get-crm-overview",
+  "get-twice-workspace",
+  "initialize-twice",
+  "save-demonstration",
+  "save-parameter-proposal",
+  "save-recipe-version",
+  "save-batch-rows",
+  "preview-batch",
+  "run-batch",
   "navigate",
   "view-screen",
-  "configure-native-crm",
-  "configure-crm-connection",
-  "list-workspace-connections",
-  "sync-crm",
   "list-crm-attributes",
-  "list-crm-records",
-  "list-crm-record-values",
-  "get-crm-record",
-  "get-crm-record-page",
-  "create-crm-record",
-  "update-crm-record",
-  "list-crm-lists",
-  "list-crm-list-entries",
-  "add-crm-record-to-list",
-  "update-crm-list-entry",
-  "list-crm-saved-views",
-  "save-crm-saved-view",
-  "find-crm-duplicates",
-  "estimate-crm-enrichment",
-  "run-crm-attribute-fill",
-  "list-crm-tasks",
-  "manage-crm-task",
-  "list-crm-proposals",
-  "apply-crm-proposals",
-  "attach-call-evidence",
-  "get-crm-automation-recipe",
-  "list-crm-signal-trackers",
-  "run-crm-signal-trackers",
-  "list-crm-signal-hits",
-  "review-crm-signal",
-  "provider-api-catalog",
-  "provider-api-request",
 ];
 
-const CRM_DASHBOARD_EDIT_TOOLS = new Set([
-  "restore-crm-dashboard-revision",
-  "save-crm-dashboard",
-]);
+const CRM_DASHBOARD_EDIT_TOOLS = new Set(["restore-crm-dashboard-revision", "save-crm-dashboard"]);
 
 function eventRecord(entry: unknown): Record<string, unknown> | undefined {
   if (!entry || typeof entry !== "object") return undefined;
   const event = (entry as { event?: unknown }).event;
-  return event && typeof event === "object"
-    ? (event as Record<string, unknown>)
-    : undefined;
+  return event && typeof event === "object" ? (event as Record<string, unknown>) : undefined;
 }
 
 function inputForCompletedTool(
@@ -86,15 +57,10 @@ function inputForCompletedTool(
   return undefined;
 }
 
-function hasCrmDashboardEdit(
-  run: { events: readonly unknown[] },
-  dashboardId: string,
-): boolean {
+function hasCrmDashboardEdit(run: { events: readonly unknown[] }, dashboardId: string): boolean {
   return run.events.some((entry, index) => {
     const record = eventRecord(entry);
-    const input = record
-      ? inputForCompletedTool(run.events, index, record)
-      : undefined;
+    const input = record ? inputForCompletedTool(run.events, index, record) : undefined;
     return (
       record?.type === "tool_done" &&
       record.completedSideEffect === true &&
@@ -114,8 +80,7 @@ async function autosaveCrmDashboardAfterAgentTurn(
     turnId?: string;
   },
 ): Promise<void> {
-  if (scope.type !== "crm-dashboard" || !hasCrmDashboardEdit(run, scope.id))
-    return;
+  if (scope.type !== "crm-dashboard" || !hasCrmDashboardEdit(run, scope.id)) return;
   const userEmail = getRequestUserEmail();
   if (!userEmail) return;
   const { crmDashboardStore } = await import("../db/index.js");
@@ -126,16 +91,19 @@ async function autosaveCrmDashboardAfterAgentTurn(
 }
 
 export default createAgentChatPlugin({
-  appId: "crm-probe",
+  appId: "twice",
   onAgentTurnComplete: autosaveCrmDashboardAfterAgentTurn,
   actions: loadActionsFromStaticRegistry(actionsRegistry),
   initialToolNames: INITIAL_TOOL_NAMES,
   mcp: { connectorCatalog: [...CRM_CONNECTOR_CATALOG], appApprovalPage: true },
   resolveOrgId: async (event) => (await getOrgContext(event)).orgId,
-  codeExecution: { production: "sandboxed" },
-  systemPrompt: `You are the CRM for this workspace. Your operating rules live in AGENTS.md and the \`crm\` skill — follow them; this prompt deliberately does not restate them.
-
-Start from the smallest read that answers the request: \`get-crm-workspace\` for "what should I work on", \`view-screen\` when the request names what is on screen, otherwise the focused CRM action. Show a result by navigating to it rather than describing it.
-
-Never fabricate, and never flatten a failure into a normal-looking value. Read a value back before reporting it done.`,
+  codeExecution: { production: "off" },
+  frameworkTools: {
+    preset: "minimal",
+    database: "off",
+    history: true,
+    docs: true,
+    resources: true,
+  },
+  systemPrompt: TWICE_AGENT_INSTRUCTIONS,
 });

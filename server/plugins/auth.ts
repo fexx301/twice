@@ -3,13 +3,12 @@ import { createToolkitAuthPlugin } from "@agent-native/toolkit/app/auth/server";
 export default createToolkitAuthPlugin({
   workspaceAppPublicPaths: ["/"],
   marketing: {
-    appName: "CRM",
-    tagline:
-      "A complete Native SQL CRM or a connected companion grounded in its source system.",
+    appName: "Twice",
+    tagline: "Show it once; it does it twice.",
     features: [
-      "Run accounts, people, opportunities, tasks, and cadence on Native SQL",
-      "Connect scoped HubSpot or Salesforce records without copying credentials",
-      "Work with the same safe actions from the UI or your CRM agent",
+      "Teach one native CRM onboarding demonstration",
+      "Prepare client notes with the agent and correct the table",
+      "Run approved inputs through code with fresh, linked IDs",
     ],
   },
 });
