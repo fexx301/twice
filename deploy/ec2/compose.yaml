@@ -14,7 +14,7 @@ services:
       interval: 5s
       timeout: 3s
       retries: 20
-    mem_limit: 768m
+    mem_limit: 512m
     networks: [private]
   migrate:
     image: ${TWICE_MIGRATION_IMAGE:-twice:migration}
@@ -37,11 +37,11 @@ services:
       PORT: "3000"
       HOST: 0.0.0.0
       AGENT_NATIVE_DB_POOL_MAX: "5"
-      NODE_OPTIONS: --max-old-space-size=1536
+      NODE_OPTIONS: --max-old-space-size=768
     depends_on:
       db: {condition: service_healthy}
     init: true
-    mem_limit: 2g
+    mem_limit: 1200m
     networks: [private]
   caddy:
     profiles: [public]

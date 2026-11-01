@@ -4,7 +4,7 @@ Selected by the owner: EC2 + stable public IP + owner-managed DuckDNS + HTTPS. R
 
 ## Proposed resources and cost
 
-One ARM64 t4g.medium (2 vCPU/4 GiB), standard CPU credits to avoid unlimited-credit charges, encrypted gp3 storage, one Elastic IP, SSM administration, no public SSH. Only Caddy's 80/443 become public after identity setup. PostgreSQL and Node have no public listeners. Single-host downtime is an accepted demo limitation, not high availability.
+One ARM64 t4g.small (2 vCPU/2 GiB), standard CPU credits to avoid unlimited-credit charges, encrypted gp3 storage, one Elastic IP, SSM administration, no public SSH. Only Caddy's 80/443 become public after identity setup. PostgreSQL and Node have no public listeners. Single-host downtime is an accepted demo limitation, not high availability.
 
 AWS Pricing API verified Stockholm Linux t4g.medium at $0.0344/hour: $25.11/730h or $11.56/336h. IPv4 at $0.005/hour adds $3.65/$1.68. 30 GiB gp3 storage and backups/transfer are additional; estimated total around $30–35/month, to be recalculated for the approved region. No NAT gateway, load balancer or RDS is proposed.
 
@@ -26,4 +26,6 @@ Fresh login; public signup refusal; unauthenticated action refusal; private mode
 
 The organization restriction was regional. Existing default CLI credentials work in eu-north-1, matching the owner's AWS console. No organization policy was altered. Use an explicit --region eu-north-1 on every project command; leave the default configuration and other project profiles untouched.
 
-Private provisioning uses Ubuntu 24.04 ARM64 from the regional Canonical public SSM parameter, verified as ami-0335270b14f48b820. All three regional availability zones advertise t4g.medium. Public ingress stays closed until bootstrap and refusal checks pass. The owner handles DuckDNS and will receive the Elastic IP first.
+Private provisioning uses Ubuntu 24.04 ARM64 from the regional Canonical public SSM parameter, verified as ami-0335270b14f48b820. t4g.small is explicitly listed as Free Tier eligible. The previous t4g.medium attempt was rejected by the account Free Tier plan and rolled back. Public ingress stays closed until bootstrap and refusal checks pass. The owner handles DuckDNS and will receive the Elastic IP first.
+
+Local production rehearsal passed: ARM64 image, PostgreSQL17 migrations, unauthenticated401, private signup/sample rows, closed signup403, existing-owner login200 and five rows afterrestart. Measured idle memory app156MiB +DB48MiB. Selected small runtime limits app1200MiB/Nodeheap768MiB,DB512MiB,2GiB encrypted swap.

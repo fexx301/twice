@@ -13,9 +13,9 @@
     },
     "InstanceType": {
       "Type": "String",
-      "Default": "t4g.medium",
+      "Default": "t4g.small",
       "AllowedValues": [
-        "t4g.medium"
+        "t4g.small"
       ]
     },
     "PublishHttps": {
