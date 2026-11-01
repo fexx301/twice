@@ -35,3 +35,7 @@ No general recorder, loops/branches in a recipe, extra adapters, scheduling, row
 These dates are latest dates, not start dates. No scope added for starting Oct 31. Official close: Nov 10 08:59 WAT, 11h59 after the internal close. Objective: prize competitiveness; demand and comparative time savings remain unproven until separately measured.
 
 Pitch supported by installed 0.222.2 docs/content/automations.mdx: native Automations' deterministic mode was removed and never implemented. Twice provides a bounded deterministic native-action executor, with agent preparation on every batch.
+
+## Verified local checkpoint — 2026-11-01 18:24 WAT
+
+631 tests, typecheck and doctor pass; local bundle compiles (production configuration remains unset). Key migration, causal cold-target control, native question correction, model-off replay, signed Claude Code/MCP approval/execution and 390px dark-mode checks are recorded in evidence/. Remaining scheduled work is the comparison, frozen fresh-start rehearsal/review, eligibility and authorized recording/submission work.
