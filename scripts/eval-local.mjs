@@ -1,8 +1,8 @@
 import { spawn } from "node:child_process";
-import { mkdtempSync, readFileSync } from "node:fs";
+import { mkdtempSync } from "node:fs";
 import { resolve } from "node:path";
-// The marker contains a path only. Node loads the external owner-only key file.
-const keyEnv = readFileSync(".local/provider-env.path", "utf8").trim();
+// Node loads the ignored owner-only project .env; app code never reads keys.
+const keyEnv = resolve(".env");
 const data = mkdtempSync(resolve(".local/eval-"));
 const child = spawn(
   process.execPath,

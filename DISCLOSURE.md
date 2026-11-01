@@ -19,13 +19,15 @@ This is a running disclosure, not a claim that the full entry has shipped.
 ## Event work completed
 
 - October 30–31: disposable selection probe around native create-record, add-to-list and create-task; opt-in input/result capture, exact ID fan-out derivation and a model-free single-client replay. One OpenRouter parameter proposal was captured; its fixed-ID classification defect motivated the first product fix.
-- October 31: moved the repository and non-secret probe evidence into the durable local project; preserved the baseline commit, no remote or push. The provider key remains in its original owner-only external `.env`, never added to this repository.
+- October 31: moved the repository and non-secret probe evidence into the durable local project; preserved the baseline commit, no remote or push. At that checkpoint the key remained in the original external `.env`; the owner corrected that instruction on November 1.
 - October 31: code now limits parameter paths to client display name and list-entry stage, excludes identifiers/fixed configuration, canonicalizes the record-ID fan-out, and tests the observed model error and invalid references. This compiler is bounded to the three CRM actions, not a general automation engine.
 
 - October 31: added scoped Twice storage and shared authoring/preview/run actions, immutable History-backed accepted recipe versions, exact preview payloads, per-row durable claims, native Progress, and deterministic composition of the three CRM actions. Added integration coverage for fresh links, concurrency, stale previews, access, History substitution and partial failures. Core remains unmodified.
 
 - October 31–November 1: added the recipe/batch workbench, native agent turns for parameter and email preparation, native table widget and question UI, action output contracts, route/app-state parity, immutable-version history, and dark/narrow layouts. Used existing Toolkit controls; no new art assets. Real parameter and preparation turns were observed locally.
 - November 1: independent Astra/medium review found stale-source and persistence-reporting bugs; corrected them and added regressions. 631 tests and typecheck passed. The corrected real-agent messy-email eval passed in an isolated database (manual lower-level agent/action integration, not the framework's read-only production-chat CI gate). No generated template or Core runtime code was patched.
+
+- November 1: at the owner's instruction, moved the OpenRouter key to the ignored project `.env` (0600), removed the temporary source key file, and changed local launchers to load the project file directly. The application then completed a real pinned-model preparation turn; no credential was committed or displayed. Added a private local signing secret so MCP uses verified signed identity instead of the framework's local owner-header shortcut.
 
 ## Still planned; update as verified
 

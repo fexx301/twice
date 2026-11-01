@@ -8,7 +8,7 @@ Native Agent-Native Automations has no deterministic mode: the installed 0.222.2
 
 `npm run dev` opens the app at http://127.0.0.1:8851/batches. Continue as local dev. Start from the labelled fictional clients, then teach onboarding in the recipe view. No HubSpot/Salesforce connection is required.
 
-The owner-only provider key remains in its original external `.env`; `.local/provider-env.path` contains only its path. Node loads it for development and the manual eval. Never put a key in this repository. Agent turns use OpenRouter with `openai/gpt-5.4-mini` pinned in app config and UI requests. Replay does not read a model key or call a model.
+The OpenRouter key is in the project's gitignored `.env` (mode 0600). Node loads it for development and the manual eval; it is never committed or printed. Agent turns use OpenRouter with `openai/gpt-5.4-mini` pinned in app config and UI requests. Replay does not call a model. `npm run dev -- --model-unavailable` explicitly blanks model credentials while retaining database/auth configuration, so dotenv cannot refill them from `.env`.
 
 - `pnpm test` — deterministic compiler, access, concurrency and failure tests plus the CRM template suite.
 - `pnpm typecheck` and `pnpm agent-native:doctor` — framework checks.
