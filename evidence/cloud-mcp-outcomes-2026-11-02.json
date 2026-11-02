@@ -1,0 +1,42 @@
+{
+  "batchId": "1fc3d2ba-a4a6-47ef-9342-dbdc297f5e20",
+  "url": "https://twice-agent.duckdns.org/batches/1fc3d2ba-a4a6-47ef-9342-dbdc297f5e20",
+  "recipeVersionId": "1562fe16-6bc1-4a52-b489-0ba480e81ae9",
+  "payloadHash": "0b6b574cd47b4f1a64ddff53188d8ed49d2b95ff7ae42d6791abe6a465b0eaa8",
+  "runState": "complete",
+  "rows": [
+    {
+      "id": "c9921540-69d8-42b8-a7a1-bf1b85017d19",
+      "clientName": "Marigold Sample",
+      "stage": "new",
+      "state": "Done",
+      "startedAt": "2026-11-02T07:20:02.784Z",
+      "recordId": "9d080a68-db60-4b01-bdc3-89b002c73d13",
+      "entryId": "2f0dff76-31a0-49d2-a641-21a4c7748aed",
+      "taskId": "eab29de2-fd07-4060-981e-dc9c2612b9c1",
+      "executionState": "succeeded"
+    },
+    {
+      "id": "0d6089b0-1a40-4493-b560-e1d50d8c33b8",
+      "clientName": "Oak Sample",
+      "stage": "in-progress",
+      "state": "Done",
+      "startedAt": "2026-11-02T07:20:02.967Z",
+      "recordId": "944b004a-0e57-4d62-9c20-b54f4e8e4818",
+      "entryId": "292c573b-50e8-4588-9534-3128a0d230e4",
+      "taskId": "798f4fcc-f3f2-47e7-941e-5493c3144c59",
+      "executionState": "succeeded"
+    },
+    {
+      "id": "10f06da8-873c-49b6-ab59-a4b1fc87b24f",
+      "clientName": "Reed Sample",
+      "stage": null,
+      "state": "Blocked",
+      "startedAt": null,
+      "recordId": null,
+      "entryId": null,
+      "taskId": null,
+      "executionState": "unstarted"
+    }
+  ]
+}

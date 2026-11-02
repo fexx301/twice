@@ -10,7 +10,7 @@ AWS Pricing API verified Stockholm Linux t4g.small at $0.0172/hour: $12.56/730h 
 
 ## Packaging and identity
 
-- Build on Linux ARM64 with the lockfile; never copy macOS node_modules. The Linux ARM64 runtime image built successfully; PostgreSQL 17 migrations and private HTTP startup passed locally. Build memory may require encrypted swap; no compatibility claim yet.
+- Build on Linux ARM64 with the lockfile; never copy macOS node_modules. Cloud ARM64 migrations, real preparation and native replay passed. Build locally in Docker; do not rebuild on the small EC2 host.
 - Root Dockerfile follows the installed framework's Docker guide. Runtime runs unprivileged and contains the built output plus pruned Linux production dependencies required by SSR. The migration target retains source/tools; run the existing pnpm migrate:production once against the fresh production database before starting app.
 - Compose stores Postgres and Caddy state in host directories on encrypted EBS, outside containers. Root/private app.env and db_password are 0600. Never upload local .env, data, MCP configuration or eval outputs. Deploy only a clean private source archive; no public repository or git remote is needed.
 - Bootstrap owner through the normal password UI over a private SSM port-forward to 127.0.0.1:8852, while public ingress remains closed. The owner enters their own password. Create the owner workspace privately, then stop bootstrap mode.
@@ -39,10 +39,10 @@ Runtime packaging correction: `.output` alone omitted React required by authenti
 Stack `twice-demo-small-2026`, instance `i-0c3ab7ec7050236ea`, Elastic IP `13.50.127.119`, region `eu-north-1`. SSM only, no SSH. Host release: `/srv/twice/release`. Canonical public startup (never include bootstrap/inspect overrides):
 
 ```sh
-TWICE_IMAGE=twice:ec2-review TWICE_HOST=twice-agent.duckdns.org docker compose -f deploy/ec2/compose.yaml --profile public up -d --no-build app caddy
+TWICE_IMAGE=twice:ec2-queue-fix TWICE_HOST=twice-agent.duckdns.org docker compose -f deploy/ec2/compose.yaml --profile public up -d --no-build app caddy
 ```
 
-Public checks passed: trusted HTTPS, HTTP308 redirect, anonymous action401 and uninvited signup403. Owner dashboard was verified privately after the SSR repair; public owner login and Personal model-key setup are the next checks. The app and DB have no host port mappings in public mode.
+Public checks passed: trusted HTTPS, HTTP308 redirect, anonymous401, signup403, public owner sign-in, Personal pinned provider, real preparation and native/MCP execution. App/DB have no host port mappings. Current image includes the authorized Toolkit queue correction (`evidence/cold-deferred-2026-11-02.md`). App306MiB after bounded real turns, zero OOM/restarts; not a load test.
 
 Daily root cron at 01:15 UTC runs `/srv/twice/backup.sh`; private encrypted S3 bucket `twice-demo-small-2026-artifacts-uouv3jytpvzc`, prefix `backups/`. The first custom-format dump restored into a scratch database with all five sample rows, then the scratch database was removed. This verifies the local dump, not an S3-download recovery drill. Preserve the separate production encryption-key recovery copy: DB backups alone cannot decrypt saved keys.
 
