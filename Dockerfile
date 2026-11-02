@@ -5,6 +5,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends python3 make g+
 ENV PYTHON=/usr/bin/python3
 ENV NODE_OPTIONS=--max-old-space-size=2048
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY patches ./patches
 RUN corepack enable && pnpm install --frozen-lockfile
 COPY . .
 RUN pnpm build

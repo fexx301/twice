@@ -19,6 +19,8 @@ Never call an LLM inside an action. UI preparation uses sendToAgentChat and useA
 
 The owner authorized EC2 + DuckDNS + HTTPS deployment on Nov 1. Keep it owner-only, with private bootstrap before public ingress. Public repo, push, recording, posting and submission still require separate go-ahead. Secrets remain outside git. Keep the OpenRouter model pinned to `openai/gpt-5.4-mini`.
 
+Nov2: the owner explicitly authorized one narrow exception to the framework no-patch rule: the pinned Toolkit0.222.2 deferred-submission notification fix in `patches/`. Preserve its source/dist parity, lockfile hash and component regression (`pnpm test:toolkit-deferred`; `-- --baseline` must fail only the race case). This does not authorize unrelated framework patches. Core remains unmodified.
+
 ## Underlying CRM guide
 
 CRM is a typed, bitemporal system whose grid is the product: Native SQL or a scoped HubSpot/Salesforce lens, with shared UI and agent actions.

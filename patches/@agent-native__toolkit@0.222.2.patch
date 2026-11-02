@@ -1,0 +1,87 @@
+diff --git a/dist/app/chat/AgentKitAssistantChat.js b/dist/app/chat/AgentKitAssistantChat.js
+index 0ae2d734ead9c02e8943c1cfdb6e0090e4fae74a..46c65bcdc80d89672656a21c410837b4c270fb20 100644
+--- a/dist/app/chat/AgentKitAssistantChat.js
++++ b/dist/app/chat/AgentKitAssistantChat.js
+@@ -2805,6 +2805,7 @@ const AgentKitAssistantChatBody = forwardRef(function AgentKitAssistantChatBody(
+                     }
+                     pendingProviderSubmissionsRef.current = submissions;
+                     setDeferredSubmissionsLoadedThread(threadId);
++                    setPendingProviderSubmissionVersion((version) => version + 1);
+                     reportAgentChatSubmitResult(submitMessageId, true);
+                     return { status: "submitted" };
+                 }
+@@ -5535,4 +5536,3 @@ function getAgentKitThreadHandoffMessages(thread, snapshot) {
+     }
+     return snapshot.messages.slice(thread.messages.length);
+ }
+-//# sourceMappingURL=AgentKitAssistantChat.js.map
+\ No newline at end of file
+diff --git a/src/app/chat/AgentKitAssistantChat.spec.tsx b/src/app/chat/AgentKitAssistantChat.spec.tsx
+index 0fa3cdae65b671da68257cc79ac55cd21884648d..e616967ef9accfcd39bb39c11c70ec6889bf5326 100644
+--- a/src/app/chat/AgentKitAssistantChat.spec.tsx
++++ b/src/app/chat/AgentKitAssistantChat.spec.tsx
+@@ -5667,6 +5667,52 @@ describe("AgentKitAssistantChat host behavior", () => {
+     },
+   );
+ 
++  it("wakes the deferred drain when restoration finishes during persistence", async () => {
++    chatMocks.history = { isRestoring: true };
++    const ref = createRef<AssistantChatHandle>();
++    const encoded = Array.from(chatMocks.threadId, c => c.codePointAt(0)!.toString(16)).join("-");
++    const key = `agentkit-deferred-provider-submissions:${encoded}`;
++    const persisted = Promise.withResolvers<void>();
++    const releasePersistence = Promise.withResolvers<void>();
++    const compareAndSet = vi.mocked(compareAndSetClientAppState);
++    const original = compareAndSet.getMockImplementation()!;
++    let paused = false;
++    compareAndSet.mockImplementation(async (...args) => {
++      if (args[0] === key && args[2] !== null && !paused) {
++        paused = true;
++        persisted.resolve();
++        await releasePersistence.promise;
++      }
++      return original(...args);
++    });
++    try {
++      await mount(baseProps(), ref);
++      await flush();
++      let submission!: ReturnType<AssistantChatHandle["sendMessage"]>;
++      await act(async () => {
++        submission = ref.current!.sendMessage("Prepare the next client batch", undefined, {submitMessageId:"restore-during-save"});
++        await persisted.promise;
++      });
++      chatMocks.history = null;
++      await act(async () => root.render(<AgentKitAssistantChat {...baseProps()} ref={ref} />));
++      await flush();
++      expect(chatMocks.control.sendMessage).not.toHaveBeenCalled();
++      await act(async () => {
++        releasePersistence.resolve();
++        await submission;
++      });
++      await flush();
++      expect(chatMocks.control.sendMessage).toHaveBeenCalledOnce();
++      expect(chatMocks.appState.has(key)).toBe(false);
++      await act(async () => root.render(<AgentKitAssistantChat {...baseProps()} ref={ref} />));
++      await flush();
++      expect(chatMocks.control.sendMessage).toHaveBeenCalledOnce();
++    } finally {
++      releasePersistence.resolve();
++      compareAndSet.mockImplementation(original);
++    }
++  });
++
+   it("uploads inline images before storing a deferred submission", async () => {
+     chatMocks.history = { isRestoring: true };
+     const submissionExpiresAt = Date.now() + 20_000;
+diff --git a/src/app/chat/AgentKitAssistantChat.tsx b/src/app/chat/AgentKitAssistantChat.tsx
+index 0a3c068f1080f965abb2f4d01cc5096dfa731111..8e06d7dd0864b578bbc34d9e7d1107553841dcec 100644
+--- a/src/app/chat/AgentKitAssistantChat.tsx
++++ b/src/app/chat/AgentKitAssistantChat.tsx
+@@ -3977,6 +3977,7 @@ const AgentKitAssistantChatBody = forwardRef<
+             }
+             pendingProviderSubmissionsRef.current = submissions;
+             setDeferredSubmissionsLoadedThread(threadId);
++            setPendingProviderSubmissionVersion((version) => version + 1);
+             reportAgentChatSubmitResult(submitMessageId, true);
+             return { status: "submitted" };
+           } catch (error) {

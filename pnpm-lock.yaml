@@ -5,50 +5,55 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  '@tiptap/starter-kit': 3.28.0
-  '@tiptap/react': 3.28.0
-  '@tiptap/pm': 3.28.0
-  '@tiptap/extensions': 3.28.0
-  '@tiptap/extension-underline': 3.28.0
-  '@tiptap/extension-text-style': 3.28.0
-  '@tiptap/extension-text': 3.28.0
-  '@tiptap/extension-task-list': 3.28.0
-  '@tiptap/extension-task-item': 3.28.0
-  '@tiptap/extension-table-row': 3.28.0
-  '@tiptap/extension-table-header': 3.28.0
-  '@tiptap/extension-table-cell': 3.28.0
-  '@tiptap/extension-table': 3.28.0
-  '@tiptap/extension-strike': 3.28.0
-  '@tiptap/extension-placeholder': 3.28.0
-  '@tiptap/extension-paragraph': 3.28.0
-  '@tiptap/extension-ordered-list': 3.28.0
-  '@tiptap/extension-list-keymap': 3.28.0
-  '@tiptap/extension-list-item': 3.28.0
-  '@tiptap/extension-list': 3.28.0
-  '@tiptap/extension-link': 3.28.0
-  '@tiptap/extension-italic': 3.28.0
-  '@tiptap/extension-image': 3.28.0
-  '@tiptap/extension-horizontal-rule': 3.28.0
-  '@tiptap/extension-heading': 3.28.0
-  '@tiptap/extension-hard-break': 3.28.0
-  '@tiptap/extension-gapcursor': 3.28.0
-  '@tiptap/extension-floating-menu': 3.28.0
-  '@tiptap/extension-dropcursor': 3.28.0
-  '@tiptap/extension-document': 3.28.0
-  '@tiptap/extension-color': 3.28.0
-  '@tiptap/extension-collaboration-caret': 3.28.0
-  '@tiptap/extension-collaboration': 3.28.0
-  '@tiptap/extension-code-block-lowlight': 3.28.0
-  '@tiptap/extension-code-block': 3.28.0
-  '@tiptap/extension-code': 3.28.0
-  '@tiptap/extension-bullet-list': 3.28.0
-  '@tiptap/extension-bubble-menu': 3.28.0
-  '@tiptap/extension-bold': 3.28.0
-  '@tiptap/extension-blockquote': 3.28.0
-  '@tiptap/core': 3.28.0
-  nf3: 0.3.17
-  '@assistant-ui/tap': ^0.5.14
   '@assistant-ui/store': '>=0.2.9 <0.2.14'
+  '@assistant-ui/tap': ^0.5.14
+  '@tiptap/core': 3.28.0
+  '@tiptap/extension-blockquote': 3.28.0
+  '@tiptap/extension-bold': 3.28.0
+  '@tiptap/extension-bubble-menu': 3.28.0
+  '@tiptap/extension-bullet-list': 3.28.0
+  '@tiptap/extension-code': 3.28.0
+  '@tiptap/extension-code-block': 3.28.0
+  '@tiptap/extension-code-block-lowlight': 3.28.0
+  '@tiptap/extension-collaboration': 3.28.0
+  '@tiptap/extension-collaboration-caret': 3.28.0
+  '@tiptap/extension-color': 3.28.0
+  '@tiptap/extension-document': 3.28.0
+  '@tiptap/extension-dropcursor': 3.28.0
+  '@tiptap/extension-floating-menu': 3.28.0
+  '@tiptap/extension-gapcursor': 3.28.0
+  '@tiptap/extension-hard-break': 3.28.0
+  '@tiptap/extension-heading': 3.28.0
+  '@tiptap/extension-horizontal-rule': 3.28.0
+  '@tiptap/extension-image': 3.28.0
+  '@tiptap/extension-italic': 3.28.0
+  '@tiptap/extension-link': 3.28.0
+  '@tiptap/extension-list': 3.28.0
+  '@tiptap/extension-list-item': 3.28.0
+  '@tiptap/extension-list-keymap': 3.28.0
+  '@tiptap/extension-ordered-list': 3.28.0
+  '@tiptap/extension-paragraph': 3.28.0
+  '@tiptap/extension-placeholder': 3.28.0
+  '@tiptap/extension-strike': 3.28.0
+  '@tiptap/extension-table': 3.28.0
+  '@tiptap/extension-table-cell': 3.28.0
+  '@tiptap/extension-table-header': 3.28.0
+  '@tiptap/extension-table-row': 3.28.0
+  '@tiptap/extension-task-item': 3.28.0
+  '@tiptap/extension-task-list': 3.28.0
+  '@tiptap/extension-text': 3.28.0
+  '@tiptap/extension-text-style': 3.28.0
+  '@tiptap/extension-underline': 3.28.0
+  '@tiptap/extensions': 3.28.0
+  '@tiptap/pm': 3.28.0
+  '@tiptap/react': 3.28.0
+  '@tiptap/starter-kit': 3.28.0
+  nf3: 0.3.17
+
+patchedDependencies:
+  '@agent-native/toolkit@0.222.2':
+    hash: f8c9cfef30e8c95fd55617df5ce2ea41ac9a334649fafb74807d35995618ce09
+    path: patches/@agent-native__toolkit@0.222.2.patch
 
 importers:
 
@@ -56,13 +61,13 @@ importers:
     dependencies:
       '@agent-native/core':
         specifier: 0.222.2
-        version: 0.222.2(62c0c73220244db3593ac46be08dbe49)
+        version: 0.222.2(c8193a4cdc31f83b579a1864310cbdf2)
       '@agent-native/otel':
         specifier: latest
-        version: 0.1.29(@agent-native/core@0.222.2(62c0c73220244db3593ac46be08dbe49))
+        version: 0.1.29(@agent-native/core@0.222.2(c8193a4cdc31f83b579a1864310cbdf2))
       '@agent-native/toolkit':
-        specifier: ^0.222.2
-        version: 0.222.2(e1c29ecc8cfe49ced9cab442d8960820)
+        specifier: 0.222.2
+        version: 0.222.2(patch_hash=f8c9cfef30e8c95fd55617df5ce2ea41ac9a334649fafb74807d35995618ce09)(172ad87b44a4aca6858fe233ad93a996)
       '@ai-sdk/openai':
         specifier: ^3.0.53
         version: 3.0.135(zod@4.6.7)
@@ -163,6 +168,9 @@ importers:
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
+      happy-dom:
+        specifier: 21.0.4
+        version: 21.0.4
       next-themes:
         specifier: ^0.4.6
         version: 0.4.6(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
@@ -189,7 +197,7 @@ importers:
         version: typescript@7.0.2
       vitest:
         specifier: ^4.1.5
-        version: 4.1.12(@opentelemetry/api@1.10.0)(@types/node@25.9.9)(vite@8.1.0(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1))
+        version: 4.1.12(@opentelemetry/api@1.10.0)(@types/node@25.9.9)(happy-dom@21.0.4)(vite@8.1.0(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1))
 
 packages:
 
@@ -2783,6 +2791,12 @@ packages:
   '@types/use-sync-external-store@0.0.6':
     resolution: {integrity: sha512-zFDAD+tlpf2r4asuHEj0XH6pY6i0g5NeAHPn+15wk3BV6JA69eERFXC1gyGThDkVa1zCyKr5jox1+2LbV/AMLg==}
 
+  '@types/whatwg-mimetype@3.0.2':
+    resolution: {integrity: sha512-c2AKvDT8ToxLIOUlN51gTiHXflsfIFisS4pO7pDPoKouJCESkhZnEy623gwP9laCy5lnLDAw1vAzu2vM2YLOrA==}
+
+  '@types/ws@8.18.2':
+    resolution: {integrity: sha512-67MQl+fpWKVTT1NYdnmo3U4sc/xPo/zQBncVnI74qmQa0z/b+1g6iYqNmGCPbxO+zz2aklb08a0oHfegiVd0/w==}
+
   '@typescript/typescript-aix-ppc64@7.0.2':
     resolution: {integrity: sha512-MTKKkWB7p/0E9xi1d1tHtZ5PiLkGEMIq88pK2CubZjOsLtYTLqhgIgi6zepFa+9GHZ6h05NMCkQxGKiPXMxXtQ==}
     engines: {node: '>=16.20.0'}
@@ -3166,6 +3180,10 @@ packages:
     resolution: {integrity: sha512-khTmKu5NGYTotqcYo8Bew2k4RAE9PuXRSFRXG2lQBrCEQHyeQ/vX6gKMxfokwywBsLiXZMnHsmWMG1pnO8J7uQ==}
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
+
+  buffer-image-size@0.6.4:
+    resolution: {integrity: sha512-nEh+kZOPY1w+gcCMobZ6ETUp9WfibndnosbpwB1iJk/8Gt5ZF2bhS6+B6bPYz424KtwsR6Rflc3tCz1/ghX2dQ==}
+    engines: {node: '>=4.0'}
 
   buffer@6.0.3:
     resolution: {integrity: sha512-FTiCpNxtwiZZHEZbcbTIcZjERVICn9yq/pDFkTl95/AxzD1naBctN7YO68riM/gLSDY7sdrMby8hofADYuuqOA==}
@@ -3766,6 +3784,10 @@ packages:
 
   hachure-fill@0.5.2:
     resolution: {integrity: sha512-3GKBOn+m2LX9iq+JC1064cSFprJY4jL1jCXTcpnfER5HYE2l/4EfWSGzkPa/ZDBmYI0ZOEj5VHV/eKnPGkHuOg==}
+
+  happy-dom@21.0.4:
+    resolution: {integrity: sha512-tFm+GaLBgo6o0awHnvHaNoraVo27qJ+2tZEtZ+cIa08hXbeitrxAJajLI05hsUy/2/YTKcUjQYzHe5mCcraLBw==}
+    engines: {node: '>=20.0.0'}
 
   has-property-descriptors@1.0.2:
     resolution: {integrity: sha512-55JNKuIW+vq4Ke1BjOTjM2YctQIvCT7GFzHwmfZPGo5wnrgkid0YQtnAleFSqumZm4az3n2BS+erby5ipJdgrg==}
@@ -5246,6 +5268,10 @@ packages:
   wgpu-matrix@3.4.2:
     resolution: {integrity: sha512-IfZFbG7olEYBD76VCZy2TzqM57GKy3LT++AZh37tMHPPByO6R2h61zXGBZFNPi2IzxNivNi8y5dvze5PjaczjA==}
 
+  whatwg-mimetype@3.0.0:
+    resolution: {integrity: sha512-nt+N2dzIutVRxARx1nghPKGv1xHikU7HKdfafKkLNLindmPU/ch3U31NOCGGA/dmPcmb1VlofO0vnKAcsm0o/Q==}
+    engines: {node: '>=12'}
+
   which-typed-array@1.1.24:
     resolution: {integrity: sha512-wk4Mf4pR5mRP7eYuuTBCIQ9d0ud2Fv2jRLQpfgnRjbOxAFHmjKFValgTpitVKzJJS8ajnYQV2Du1SZ8j6b/EUQ==}
     engines: {node: '>= 0.4'}
@@ -5348,7 +5374,7 @@ snapshots:
       '@ag-ui/core': 0.0.59
       '@noble/hashes': 2.4.0
 
-  '@agent-native/core@0.222.2(62c0c73220244db3593ac46be08dbe49)':
+  '@agent-native/core@0.222.2(c8193a4cdc31f83b579a1864310cbdf2)':
     dependencies:
       '@agent-native/agentkit': 0.222.2
       '@agent-native/recap-cli': 0.5.93
@@ -5368,7 +5394,7 @@ snapshots:
       '@tanstack/query-persist-client-core': 5.101.2
       ajv: 8.20.0
       ajv-formats: 3.0.1(ajv@8.20.0)
-      better-auth: 1.7.6(@opentelemetry/api@1.10.0)(drizzle-orm@0.45.4(@electric-sql/pglite@0.5.13)(@neondatabase/serverless@1.2.0)(@opentelemetry/api@1.10.0)(kysely@0.29.7)(postgres@3.4.9))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(vitest@4.1.12(@opentelemetry/api@1.10.0)(@types/node@25.9.9)(vite@8.1.0(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1)))
+      better-auth: 1.7.6(@opentelemetry/api@1.10.0)(drizzle-orm@0.45.4(@electric-sql/pglite@0.5.13)(@neondatabase/serverless@1.2.0)(@opentelemetry/api@1.10.0)(kysely@0.29.7)(postgres@3.4.9))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(vitest@4.1.12(@opentelemetry/api@1.10.0)(@types/node@25.9.9)(happy-dom@21.0.4)(vite@8.1.0(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1)))
       cron-parser: 5.10.2
       diff: 9.0.0
       diff-match-patch: 1.0.5
@@ -5469,9 +5495,9 @@ snapshots:
       - vitest
       - vue
 
-  '@agent-native/otel@0.1.29(@agent-native/core@0.222.2(62c0c73220244db3593ac46be08dbe49))':
+  '@agent-native/otel@0.1.29(@agent-native/core@0.222.2(c8193a4cdc31f83b579a1864310cbdf2))':
     dependencies:
-      '@agent-native/core': 0.222.2(62c0c73220244db3593ac46be08dbe49)
+      '@agent-native/core': 0.222.2(c8193a4cdc31f83b579a1864310cbdf2)
       '@opentelemetry/api': 1.10.0
       '@opentelemetry/context-async-hooks': 2.12.0(@opentelemetry/api@1.10.0)
       '@opentelemetry/exporter-metrics-otlp-proto': 0.222.0(@opentelemetry/api@1.10.0)
@@ -5482,7 +5508,7 @@ snapshots:
 
   '@agent-native/recap-cli@0.5.93': {}
 
-  '@agent-native/toolkit@0.222.2(e1c29ecc8cfe49ced9cab442d8960820)':
+  '@agent-native/toolkit@0.222.2(patch_hash=f8c9cfef30e8c95fd55617df5ce2ea41ac9a334649fafb74807d35995618ce09)(172ad87b44a4aca6858fe233ad93a996)':
     dependencies:
       '@agent-native/agentkit': 0.222.2
       '@assistant-ui/react': 0.12.28(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(ai@6.0.320(zod@4.6.7))(immer@11.2.9)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(use-sync-external-store@1.7.0(react@19.3.1))
@@ -5580,7 +5606,7 @@ snapshots:
       yjs: 13.6.33
       zod: 4.6.7
     optionalDependencies:
-      '@agent-native/core': 0.222.2(62c0c73220244db3593ac46be08dbe49)
+      '@agent-native/core': 0.222.2(c8193a4cdc31f83b579a1864310cbdf2)
     transitivePeerDependencies:
       - '@aws-sdk/credential-provider-node'
       - '@babel/runtime'
@@ -7902,6 +7928,12 @@ snapshots:
 
   '@types/use-sync-external-store@0.0.6': {}
 
+  '@types/whatwg-mimetype@3.0.2': {}
+
+  '@types/ws@8.18.2':
+    dependencies:
+      '@types/node': 25.9.9
+
   '@typescript/typescript-aix-ppc64@7.0.2':
     optional: true
 
@@ -8158,7 +8190,7 @@ snapshots:
 
   baseline-browser-mapping@2.11.34: {}
 
-  better-auth@1.7.6(@opentelemetry/api@1.10.0)(drizzle-orm@0.45.4(@electric-sql/pglite@0.5.13)(@neondatabase/serverless@1.2.0)(@opentelemetry/api@1.10.0)(kysely@0.29.7)(postgres@3.4.9))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(vitest@4.1.12(@opentelemetry/api@1.10.0)(@types/node@25.9.9)(vite@8.1.0(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1))):
+  better-auth@1.7.6(@opentelemetry/api@1.10.0)(drizzle-orm@0.45.4(@electric-sql/pglite@0.5.13)(@neondatabase/serverless@1.2.0)(@opentelemetry/api@1.10.0)(kysely@0.29.7)(postgres@3.4.9))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(vitest@4.1.12(@opentelemetry/api@1.10.0)(@types/node@25.9.9)(happy-dom@21.0.4)(vite@8.1.0(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1))):
     dependencies:
       '@better-auth/core': 1.7.6(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(@opentelemetry/api@1.10.0)(better-call@1.4.0(zod@4.6.7))(jose@6.2.14)(kysely@0.29.7)(nanostores@1.5.5)
       '@better-auth/drizzle-adapter': 1.7.6(@better-auth/core@1.7.6(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(@opentelemetry/api@1.10.0)(better-call@1.4.0(zod@4.6.7))(jose@6.2.14)(kysely@0.29.7)(nanostores@1.5.5))(@better-auth/utils@0.4.2)(drizzle-orm@0.45.4(@electric-sql/pglite@0.5.13)(@neondatabase/serverless@1.2.0)(@opentelemetry/api@1.10.0)(kysely@0.29.7)(postgres@3.4.9))
@@ -8181,7 +8213,7 @@ snapshots:
       drizzle-orm: 0.45.4(@electric-sql/pglite@0.5.13)(@neondatabase/serverless@1.2.0)(@opentelemetry/api@1.10.0)(kysely@0.29.7)(postgres@3.4.9)
       react: 19.3.1
       react-dom: 19.3.1(react@19.3.1)
-      vitest: 4.1.12(@opentelemetry/api@1.10.0)(@types/node@25.9.9)(vite@8.1.0(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1))
+      vitest: 4.1.12(@opentelemetry/api@1.10.0)(@types/node@25.9.9)(happy-dom@21.0.4)(vite@8.1.0(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1))
     transitivePeerDependencies:
       - '@opentelemetry/api'
 
@@ -8207,6 +8239,10 @@ snapshots:
       electron-to-chromium: 1.5.471
       node-releases: 2.0.62
       update-browserslist-db: 1.3.4(browserslist@4.29.5)
+
+  buffer-image-size@0.6.4:
+    dependencies:
+      '@types/node': 25.9.9
 
   buffer@6.0.3:
     dependencies:
@@ -8670,6 +8706,19 @@ snapshots:
       ocache: 0.3.1
 
   hachure-fill@0.5.2: {}
+
+  happy-dom@21.0.4:
+    dependencies:
+      '@types/node': 25.9.9
+      '@types/whatwg-mimetype': 3.0.2
+      '@types/ws': 8.18.2
+      buffer-image-size: 0.6.4
+      entities: 7.0.1
+      whatwg-mimetype: 3.0.0
+      ws: 8.22.0
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
 
   has-property-descriptors@1.0.2:
     dependencies:
@@ -10370,7 +10419,7 @@ snapshots:
       tsx: 4.23.15
       yaml: 2.9.1
 
-  vitest@4.1.12(@opentelemetry/api@1.10.0)(@types/node@25.9.9)(vite@8.1.0(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1)):
+  vitest@4.1.12(@opentelemetry/api@1.10.0)(@types/node@25.9.9)(happy-dom@21.0.4)(vite@8.1.0(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1)):
     dependencies:
       '@vitest/expect': 4.1.12
       '@vitest/mocker': 4.1.12(vite@8.1.0(@types/node@25.9.9)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1))
@@ -10395,6 +10444,7 @@ snapshots:
     optionalDependencies:
       '@opentelemetry/api': 1.10.0
       '@types/node': 25.9.9
+      happy-dom: 21.0.4
     transitivePeerDependencies:
       - msw
 
@@ -10410,6 +10460,8 @@ snapshots:
       - supports-color
 
   wgpu-matrix@3.4.2: {}
+
+  whatwg-mimetype@3.0.0: {}
 
   which-typed-array@1.1.24:
     dependencies:

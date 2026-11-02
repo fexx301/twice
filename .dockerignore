@@ -6,6 +6,7 @@ node_modules
 .deploy-tmp
 .agent-native
 .local
+.cache
 data
 **/data
 .env

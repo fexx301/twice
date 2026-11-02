@@ -64,3 +64,6 @@ minimumReleaseAgeExclude:
   - "@modelcontextprotocol/node"
   - "@modelcontextprotocol/core"
   - "@modelcontextprotocol/client"
+
+patchedDependencies:
+  "@agent-native/toolkit@0.222.2": patches/@agent-native__toolkit@0.222.2.patch

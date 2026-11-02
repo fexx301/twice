@@ -16,6 +16,7 @@ This is a running disclosure, not a claim that the full entry has shipped.
 - Initial font, favicon, Agent-Native marks and CRM icons come from the generated template and its dependencies (`@fontsource-variable/inter`, Tabler icons). No stock photos, generated images or external customer data were added.
 - Sample clients and messages are synthetic and must be labelled as sample data. They are not evidence of adoption.
 - Deployment uses official Node24 Debian slim, PostgreSQL17 Debian and Caddy2 images, Ubuntu24.04 ARM64, Docker Compose and AWS EC2/SSM/S3. These are existing infrastructure; Twice added Docker stages, private bootstrap/public Compose configuration, Caddy routing, CloudFormation and backup scripts. Pruned production dependencies are included to support authenticated SSR. No new visual assets were added for deployment.
+- November2: HappyDOM21.0.4 added only for component regression tests. With explicit owner approval, Toolkit0.222.2 is exact-pinned and patched to notify its deferred-chat drain after an asynchronous save. The patch updates source/compiled JS and adds a reproducing component test; the compiled module's stale source-map reference is removed. Core remains unmodified. This framework repair is event work, not an upstream feature or an unmodified-framework claim.
 
 ## Event work completed
 
