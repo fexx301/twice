@@ -1,0 +1,40 @@
+[
+  {
+    "rowId": "84382c4f-d4b8-46f0-9434-2c15dc7679fe",
+    "clientName": "Cedar Studio",
+    "outcome": "Done",
+    "recordId": "b64db175-b468-4f29-b28e-fa94f09f1183",
+    "entryId": "72be5908-834c-4d5b-92cb-7fc7539301ae",
+    "taskId": "e3470ce4-7fbe-46c8-9f30-ff04eac5d3d9"
+  },
+  {
+    "rowId": "ca14d48d-0e86-4a39-8b8c-d8825cbc7315",
+    "clientName": "Birch Workshop",
+    "outcome": "Done",
+    "recordId": "45b2d777-e915-421b-88aa-345af8cfe52c",
+    "entryId": "4bc9e499-b020-4fd8-956e-2eed810f5062",
+    "taskId": "882413b5-83ff-49f0-981b-e61a6ca2f1cd"
+  },
+  {
+    "rowId": "d016db54-80bd-4bf6-b2d3-c8911367d0fd",
+    "clientName": "Northstar Design",
+    "outcome": "Done",
+    "recordId": "16147099-7b8f-4902-90df-0af8531ead73",
+    "entryId": "b106c7e1-fbc4-47d4-a14e-ca1755f9436f",
+    "taskId": "bce00751-bbca-43da-8639-6e0e13d25e4c"
+  },
+  {
+    "rowId": "e672cdf7-0cfb-4115-81e6-b15b9ae2605e",
+    "clientName": "Delta Labs",
+    "outcome": "Done",
+    "recordId": "13acd38d-555c-4287-9b5a-5d6d1aac15ad",
+    "entryId": "a6c16189-770a-457f-8ebf-39015e4dfbf1",
+    "taskId": "fded6ee0-3d84-45e5-a98a-025f8f6a0b4c"
+  },
+  {
+    "rowId": "2a94e94d-73bd-4733-900c-36846035357f",
+    "clientName": "Moss Collective",
+    "outcome": "Blocked",
+    "reason": "The sample email asks to clarify the stage, so it cannot be inferred."
+  }
+]
