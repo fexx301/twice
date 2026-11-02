@@ -1,0 +1,89 @@
+{
+  "environment": "fresh isolated localhost PGlite, labelled fictional clients",
+  "model": "openai/gpt-5.4-mini",
+  "modelUnavailable": false,
+  "done": 4,
+  "blocked": 1,
+  "totals": {
+    "crm_records": 5,
+    "crm_list_entries": 5,
+    "crm_tasks": 5
+  },
+  "original": {
+    "id": "91889f15-e642-4b59-b72b-67277ce40c54",
+    "display_name": "Aster Studio — sample"
+  },
+  "originalTask": {
+    "id": "4555d335-f0f4-440b-bc5e-a1bd8c7f618d",
+    "title": "Send onboarding pack",
+    "status": "open"
+  },
+  "originalEntry": {
+    "id": "70d4ab7a-c2e2-45f1-b60d-d8c9a726c70a",
+    "list_id": "f86e8ed1-862c-47f1-8f8b-a3489a4def09"
+  },
+  "originalEntryAndTaskCount": 1,
+  "blockedUnstartedAndUncreated": true,
+  "allFreshBindingsVerified": true,
+  "correctedStageVariableAfterReload": true,
+  "acceptedVersionId": "335ebe48-ab6c-4447-9961-2a71d14aa943",
+  "runs": [
+    {
+      "id": "fb0f39e4-6b0e-48bf-b7ea-68cd9a316037",
+      "state": "complete",
+      "recipe_version_id": "335ebe48-ab6c-4447-9961-2a71d14aa943"
+    }
+  ],
+  "rows": [
+    {
+      "id": "c001b9ee-e461-42a9-8444-cea600a3b12e",
+      "client_name": "Cedar Studio",
+      "state": "Done",
+      "started_at": "2026-11-02T08:39:46.161Z",
+      "record_id": "e9c54998-1037-4b12-b69d-044688813a58",
+      "entry_id": "32a97586-d6d6-45a5-9f80-edc079820b02",
+      "task_id": "043601a2-f417-43ea-8f89-eaf054289866",
+      "execution_state": "succeeded"
+    },
+    {
+      "id": "492aadd3-0013-4ea2-8a99-e950f45f2c2d",
+      "client_name": "Birch Workshop",
+      "state": "Done",
+      "started_at": "2026-11-02T08:39:46.204Z",
+      "record_id": "fc1b48d4-7552-4ec0-a3c0-133823eba65c",
+      "entry_id": "26605628-40bf-4ea7-9fb5-de3fc8549821",
+      "task_id": "e1a35e43-78a3-47d1-b1d0-96a95559a60e",
+      "execution_state": "succeeded"
+    },
+    {
+      "id": "ee25f213-d867-43fe-b018-c0050cbfda1c",
+      "client_name": "Northstar Design",
+      "state": "Done",
+      "started_at": "2026-11-02T08:39:46.239Z",
+      "record_id": "8487150b-2a38-4a81-9799-ad7b1a408acd",
+      "entry_id": "ec3c61f1-943a-4d6b-8b3e-32f760106576",
+      "task_id": "ec737e55-f8d2-4a46-921b-827605eb7ae9",
+      "execution_state": "succeeded"
+    },
+    {
+      "id": "f66f14f9-8e5f-4258-8eee-c05d2e8cfb4c",
+      "client_name": "Delta Labs",
+      "state": "Done",
+      "started_at": "2026-11-02T08:39:46.272Z",
+      "record_id": "4acc27ef-393b-45e4-9e05-4c85da8d1582",
+      "entry_id": "1b97c8ad-1c89-4f6a-9213-f71d127389eb",
+      "task_id": "7dc131f1-ded0-4aa2-b857-3e5d67c27b86",
+      "execution_state": "succeeded"
+    },
+    {
+      "id": "ac7565cc-f877-4992-b9e2-195df062a3e9",
+      "client_name": "Moss Collective",
+      "state": "Blocked",
+      "started_at": null,
+      "record_id": null,
+      "entry_id": null,
+      "task_id": null,
+      "execution_state": "unstarted"
+    }
+  ]
+}

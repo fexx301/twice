@@ -1,0 +1,42 @@
+{
+  "batchId": "f06fb1a9-5730-4019-a81d-12c9f4e47235",
+  "url": "https://twice-agent.duckdns.org/batches/f06fb1a9-5730-4019-a81d-12c9f4e47235",
+  "recipeVersionId": "1562fe16-6bc1-4a52-b489-0ba480e81ae9",
+  "payloadHash": "1826c04c8fa612c4ee61ef36c7dff623cc97c175ad41479122b5b707e99ba7c3",
+  "runState": "complete",
+  "rows": [
+    {
+      "id": "ba0824a2-ecec-4d5d-88e4-287802de07f0",
+      "clientName": "Juniper Release Demo",
+      "stage": "new",
+      "state": "Done",
+      "startedAt": "2026-11-02T13:24:31.660Z",
+      "recordId": "0d561f6c-7371-44b2-98bb-7ed06916b683",
+      "entryId": "5d2f88ac-a2e3-4d4e-b503-1f6a7b7a7e4a",
+      "taskId": "22e106e1-ec5f-4958-b743-f00d5b7702e9",
+      "executionState": "succeeded"
+    },
+    {
+      "id": "7e2e829d-4b7d-4c10-8f76-fcabcc0653d4",
+      "clientName": "Alder Release Demo",
+      "stage": "in-progress",
+      "state": "Done",
+      "startedAt": "2026-11-02T13:24:31.854Z",
+      "recordId": "48a4ac31-74fd-4d91-9e6e-19e5960ac30e",
+      "entryId": "9df43fc0-c581-4050-86b7-ef60ac907883",
+      "taskId": "be0aadd1-5e46-4cc4-813e-dc4df5d952ca",
+      "executionState": "succeeded"
+    },
+    {
+      "id": "aecabf32-e29f-4ee0-a6ff-0e765376638e",
+      "clientName": "Hazel Release Demo",
+      "stage": null,
+      "state": "Blocked",
+      "startedAt": null,
+      "recordId": null,
+      "entryId": null,
+      "taskId": null,
+      "executionState": "unstarted"
+    }
+  ]
+}

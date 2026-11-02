@@ -1,0 +1,45 @@
+{
+  "environment": "isolated localhost, fresh PGlite data, labelled fictional clients",
+  "model": "openai/gpt-5.4-mini",
+  "modelUnavailable": false,
+  "rows": [
+    {
+      "rowId": "c001b9ee-e461-42a9-8444-cea600a3b12e",
+      "clientName": "Cedar Studio",
+      "outcome": "Done",
+      "recordId": "e9c54998-1037-4b12-b69d-044688813a58",
+      "entryId": "32a97586-d6d6-45a5-9f80-edc079820b02",
+      "taskId": "043601a2-f417-43ea-8f89-eaf054289866"
+    },
+    {
+      "rowId": "492aadd3-0013-4ea2-8a99-e950f45f2c2d",
+      "clientName": "Birch Workshop",
+      "outcome": "Done",
+      "recordId": "fc1b48d4-7552-4ec0-a3c0-133823eba65c",
+      "entryId": "26605628-40bf-4ea7-9fb5-de3fc8549821",
+      "taskId": "e1a35e43-78a3-47d1-b1d0-96a95559a60e"
+    },
+    {
+      "rowId": "ee25f213-d867-43fe-b018-c0050cbfda1c",
+      "clientName": "Northstar Design",
+      "outcome": "Done",
+      "recordId": "8487150b-2a38-4a81-9799-ad7b1a408acd",
+      "entryId": "ec3c61f1-943a-4d6b-8b3e-32f760106576",
+      "taskId": "ec737e55-f8d2-4a46-921b-827605eb7ae9"
+    },
+    {
+      "rowId": "f66f14f9-8e5f-4258-8eee-c05d2e8cfb4c",
+      "clientName": "Delta Labs",
+      "outcome": "Done",
+      "recordId": "4acc27ef-393b-45e4-9e05-4c85da8d1582",
+      "entryId": "1b97c8ad-1c89-4f6a-9213-f71d127389eb",
+      "taskId": "7dc131f1-ded0-4aa2-b857-3e5d67c27b86"
+    },
+    {
+      "rowId": "ac7565cc-f877-4992-b9e2-195df062a3e9",
+      "clientName": "Moss Collective",
+      "outcome": "Blocked",
+      "reason": "The sample notes ask to confirm the stage later."
+    }
+  ]
+}

@@ -39,7 +39,7 @@ Runtime packaging correction: `.output` alone omitted React required by authenti
 Stack `twice-demo-small-2026`, instance `i-0c3ab7ec7050236ea`, Elastic IP `13.50.127.119`, region `eu-north-1`. SSM only, no SSH. Host release: `/srv/twice/release`. Canonical public startup (never include bootstrap/inspect overrides):
 
 ```sh
-TWICE_IMAGE=twice:ec2-queue-fix TWICE_HOST=twice-agent.duckdns.org docker compose -f deploy/ec2/compose.yaml --profile public up -d --no-build app caddy
+TWICE_IMAGE=twice:ec2-demo-polish TWICE_HOST=twice-agent.duckdns.org docker compose -f deploy/ec2/compose.yaml --profile public up -d --no-build app caddy
 ```
 
 Public checks passed: trusted HTTPS, HTTP308 redirect, anonymous401, signup403, public owner sign-in, Personal pinned provider, real preparation and native/MCP execution. App/DB have no host port mappings. Current image includes the authorized Toolkit queue correction (`evidence/cold-deferred-2026-11-02.md`). App306MiB after bounded real turns, zero OOM/restarts; not a load test.

@@ -43,3 +43,9 @@ Pitch supported by installed 0.222.2 docs/content/automations.mdx: native Automa
 ## Deployment scope amendment — 2026-11-01 23:32 WAT
 
 Owner selected EC2 + DuckDNS + HTTPS, will manage DNS, requested cost-effective resources and a Nov15 teardown review. Stockholm is the permitted AWS region. Free Tier plan rejected t4g.medium; replacement t4g.small succeeded. Private server i-0c3ab7ec7050236ea, stable IP13.50.127.119, hostname twice-agent.duckdns.org. Public ingress remains gated by owner bootstrap, signup refusal and HTTPS validation. No public Git remote/Clips/submission authorized. Runtime dependency packaging error found after owner signup; database preserved, corrected image passed authenticated SSR locally, cloud update in progress.
+
+## Current feature freeze — November2
+
+Code `ed5d7a4`, ARM image `twice:ec2-demo-polish`, deployed at https://twice-agent.duckdns.org. [Release checks](evidence/frozen-release-2026-11-02.md):631tests/typecheck/14-guard doctor pass; fresh-data full UI rehearsal4Done/1Blocked with independent original/binding/persistence checks; signed cloud MCP2Done/1Blocked with exact approval; final presentation regression and390px check pass. Toolkit repair is pinned, reviewed and disclosed. Native skill also completed the routine; [comparison](evidence/comparison-2026-11-02.md) supports the narrower UI/control contribution, not general superiority.
+
+No scope added. Feature work is frozen. [Entry draft](ENTRY-DRAFT.md) is local only; remaining gates are owner eligibility/creator/contact confirmation, Clips setup/recording/public access check and submission/receipt, with the required separate authorizations. Nov15 remains a teardown review after judging, not automatic deletion.
