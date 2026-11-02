@@ -155,6 +155,8 @@ export function TwiceWorkbench({ mode }: { mode: "recipe" | "batch" }) {
     .filter((o) => !o.archived)
     .map((o) => o.value);
   const locked = ws?.rows.some((r) => r.startedAt !== null) ?? false;
+  const visibleNotice =
+    locked && notice === "Table confirmed. Preview the exact inputs before running." ? "" : notice;
   const pending = Boolean(busy) || delivering || generating;
 
   useEffect(() => {
@@ -401,9 +403,9 @@ export function TwiceWorkbench({ mode }: { mode: "recipe" | "batch" }) {
           {error}
         </div>
       )}
-      {(busy || notice) && (
+      {(busy || visibleNotice) && (
         <p className="text-sm text-muted-foreground" role="status">
-          {busy ? `${busy}…` : notice}
+          {busy ? `${busy}…` : visibleNotice}
         </p>
       )}
       {questionKey && <StageQuestion stateKey={questionKey} />}
@@ -719,7 +721,8 @@ export function TwiceWorkbench({ mode }: { mode: "recipe" | "batch" }) {
           {!active && (
             <div className="flex flex-wrap items-center justify-between gap-3 rounded-lg bg-muted/60 p-4 text-sm">
               <span>
-                Sample clients are ready to explore. Teach onboarding before you run them.
+                Teach one client’s setup, then paste notes for the next clients. Review their details
+                and approve the repeat work.
               </span>
               <Link
                 className="font-medium underline underline-offset-4"
