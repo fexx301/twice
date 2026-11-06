@@ -32,3 +32,15 @@ Port 8854, fresh PGlite `.cache/rehearsal-2026-11-06`, local development identit
 6. Read-back: one complete run on the active version; four distinct fresh record IDs each with entry and task; Moss unstarted with no record; the demonstration record was not reused. [Screenshot](review-fix-rehearsal-2026-11-06.png).
 
 Not covered: the "created but not captured" message (needs an induced capture failure); a live-production UI pass after deploy.
+
+## History rewrite map
+
+Earlier notes cite pre-rewrite hashes. Commits up to and including `441aa2f` (and the generated template `79b8675`) are unchanged. Full pre-rewrite history is kept outside the repository in a local git bundle.
+
+| Pre-rewrite | Rewritten |
+| --- | --- |
+| `c5ae718` | `2bef63d` |
+| `2b9212f` | `2c83364` |
+| `d1cb4c2` | `0706d02` |
+| `ed5d7a4` (frozen Nov 2 release) | `1653a64` |
+| `a37a31c` | `b7152d3` |
