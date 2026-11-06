@@ -34,12 +34,12 @@ Runtime packaging correction: `.output` alone omitted React required by authenti
 
 ## Live operations
 
-`prepare-host.sh` records initial private bootstrap, not an upgrade command. Its original runtime artifact was later replaced by `artifacts/twice-runtime-fixed.tar.gz`; do not rerun bootstrap over the live service.
+`prepare-host.sh` records initial private bootstrap, not an upgrade command. Its original runtime artifact was later replaced by `artifacts/twice-runtime-fixed.tar.gz`; do not rerun bootstrap over the live service; the script now refuses to run while Caddy is up.
 
 Stack `twice-demo-small-2026`, instance `i-0c3ab7ec7050236ea`, Elastic IP `13.50.127.119`, region `eu-north-1`. SSM only, no SSH. Host release: `/srv/twice/release`. Canonical public startup (never include bootstrap/inspect overrides):
 
 ```sh
-TWICE_IMAGE=twice:ec2-demo-polish TWICE_HOST=twice-agent.duckdns.org docker compose -f deploy/ec2/compose.yaml --profile public up -d --no-build app caddy
+TWICE_IMAGE=twice:ec2-review-fixes TWICE_HOST=twice-agent.duckdns.org docker compose -f deploy/ec2/compose.yaml --profile public up -d --no-build app caddy
 ```
 
 Public checks passed: trusted HTTPS, HTTP308 redirect, anonymous401, signup403, public owner sign-in, Personal pinned provider, real preparation and native/MCP execution. App/DB have no host port mappings. Current image includes the authorized Toolkit queue correction (`evidence/cold-deferred-2026-11-02.md`). App306MiB after bounded real turns, zero OOM/restarts; not a load test.
@@ -47,3 +47,5 @@ Public checks passed: trusted HTTPS, HTTP308 redirect, anonymous401, signup403, 
 Daily root cron at 01:15 UTC runs `/srv/twice/backup.sh`; private encrypted S3 bucket `twice-demo-small-2026-artifacts-uouv3jytpvzc`, prefix `backups/`. The first custom-format dump restored into a scratch database with all five sample rows, then the scratch database was removed. This verifies the local dump, not an S3-download recovery drill. Preserve the separate production encryption-key recovery copy: DB backups alone cannot decrypt saved keys.
 
 Before Nov15 teardown: take and verify a final backup, preserve required evidence and recovery keys, then remove the stack and explicitly review its retained encrypted EBS volume and S3 bucket plus Elastic IP. Retained storage continues to cost money. No teardown has been executed.
+
+Nov 6 review-fix release: image `twice:ec2-review-fixes`, ARM archive SHA256 `3e624069501fecdef2099708d3cf6cb5779e0fb8ac396a328e4ca482f3150e5a`. Pre-deploy encrypted backup uploaded; SSM `21cf6293-21aa-4a8f-bf8a-f40cc4666eb7` verified the checksum and replaced only the app (zero restarts/OOM, AUTH_SIGNUP=invited, ORG_CREATION=closed). Public HTTPS200, HTTP308, anonymous actions401. Host `prepare-host.sh` replaced with the guarded version.

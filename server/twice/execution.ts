@@ -231,7 +231,18 @@ export async function runBatch(args: z.infer<typeof runBatchSchema>, ctx?: Actio
         });
         hadFailure = true;
         // A simultaneous second batch request loses its first claim and must not steal later rows.
-        if (!claimedAny) break;
+        if (!claimedAny) {
+          for (const rest of trusted.payload.rows.slice(position + 1))
+            outcomes.push({
+              rowId: rest.id,
+              clientName: rest.clientName,
+              outcome: "Blocked",
+              reason: rest.ready
+                ? "Not attempted: another run holds this batch. No action was attempted for this row."
+                : rest.reason,
+            });
+          break;
+        }
         continue;
       }
       claimedAny = true;

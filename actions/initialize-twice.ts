@@ -1,4 +1,5 @@
 import { workspaceOutputSchema } from "../shared/twice-outputs.js";
+import { createHmac } from "node:crypto";
 import { defineAction } from "@agent-native/core/action";
 import { z } from "zod";
 import { getDb, schema } from "../server/db/index.js";
@@ -13,7 +14,10 @@ export default defineAction({
   schema: z.object({}).strict(),
   run: async (_args, ctx) => {
     const owner = identity(ctx);
-    const suffix = hash({ ownerEmail: owner.ownerEmail, orgId: owner.orgId });
+    // Keyed with the server secret so a deep-link ID cannot confirm a guessed email; still deterministic for idempotent init.
+    const suffix = createHmac("sha256", process.env.BETTER_AUTH_SECRET ?? "twice-dev")
+      .update(hash({ ownerEmail: owner.ownerEmail, orgId: owner.orgId }))
+      .digest("hex");
     const recipeId = `recipe-${suffix}`;
     const batchId = `batch-${suffix}`;
     const db = getDb();

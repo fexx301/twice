@@ -51,6 +51,7 @@ const stageLabel = (s: string | null) =>
   s
     ? s
         .split("-")
+        .filter(Boolean)
         .map((w) => w[0].toUpperCase() + w.slice(1))
         .join(" ")
     : "Needs a stage";
@@ -289,7 +290,13 @@ export function TwiceWorkbench({ mode }: { mode: "recipe" | "batch" }) {
         connectionId: destination.connectionId,
       };
       const result = await callAction("create-crm-record", input);
-      await append(captureStepSchema.parse({ name: "create-crm-record", input, result }));
+      try {
+        await append(captureStepSchema.parse({ name: "create-crm-record", input, result }));
+      } catch (e) {
+        throw new Error(
+          `${actionErrorMessage(e) ?? "Capture failed."} The CRM account "${client}" (${result.recordId}) was created but not captured; delete it from Accounts if unwanted.`,
+        );
+      }
     } else if (index === 1 && destination && trace[0]?.name === "create-crm-record") {
       const input = {
         listId: destination.listId,
@@ -508,6 +515,28 @@ export function TwiceWorkbench({ mode }: { mode: "recipe" | "batch" }) {
                 </Button>
               </div>
             </div>
+            {trace.length > 0 && (
+              <Button
+                variant="ghost"
+                disabled={pending}
+                className="min-h-11"
+                onClick={() =>
+                  act("Starting a new demonstration", async () => {
+                    // Omitting demonstrationId creates a fresh, empty capture; the old one and any accepted version are kept.
+                    await callAction("save-demonstration", {
+                      recipeId: recipe.id,
+                      expectedRecipeRevision: recipe.revision,
+                      trace: [],
+                    });
+                    setNotice(
+                      "New demonstration started. The previous capture and accepted versions are kept.",
+                    );
+                  })
+                }
+              >
+                Start a new demonstration
+              </Button>
+            )}
             {trace.length === 3 && (
               <p className="text-sm text-muted-foreground">
                 Code binds the new client’s record ID to both the list entry and the task.

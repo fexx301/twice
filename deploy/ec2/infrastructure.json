@@ -71,6 +71,15 @@
               "NoncurrentVersionExpiration": {
                 "NoncurrentDays": 7
               }
+            },
+            {
+              "Id": "ExpiredBackups",
+              "Status": "Enabled",
+              "Prefix": "backups/",
+              "ExpirationInDays": 30,
+              "NoncurrentVersionExpiration": {
+                "NoncurrentDays": 7
+              }
             }
           ]
         }

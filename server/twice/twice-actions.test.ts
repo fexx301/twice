@@ -277,9 +277,40 @@ describe("Twice native action workflow and execution boundaries", () => {
         .flatMap((value) => (value.status === "fulfilled" ? [value.value.done] : []))
         .reduce((a, b) => a + b, 0),
     ).toBe(2);
+    // Each run, including the loser, reports one outcome per previewed row.
+    for (const value of settled)
+      if (value.status === "fulfilled")
+        expect(value.value.outcomes).toHaveLength(f.ready.payload.rows.length);
     expect(await recordCount(f.record.connectionId)).toBe(3);
     await expect(call(execute, args, "run-batch")).rejects.toThrow(/STALE_PREVIEW|No confirmed/);
     expect(await recordCount(f.record.connectionId)).toBe(3);
+  }, 30000);
+
+  it("starts a fresh demonstration and refuses a captured stage the stored entry does not have", async () => {
+    const f = await fixture(1);
+    let ws = await call(getWorkspace, { recipeId: f.recipeId }, "get-twice-workspace");
+    const trace = ws.demonstration!.trace as any[];
+    ws = await call(
+      saveDemo,
+      { recipeId: f.recipeId, expectedRecipeRevision: ws.recipe!.revision, trace: [] },
+      "save-demonstration",
+    );
+    expect(ws.demonstration!.trace).toEqual([]);
+    expect(ws.recipe!.activeVersionId).toBe(f.accepted.recipeVersionId);
+    const forged = [trace[0], { ...trace[1], input: { ...trace[1].input, values: { stage: "in-progress" } } }];
+    await expect(
+      call(
+        saveDemo,
+        {
+          recipeId: f.recipeId,
+          demonstrationId: ws.demonstration!.id,
+          expectedRecipeRevision: ws.recipe!.revision,
+          expectedDemonstrationRevision: ws.demonstration!.revision,
+          trace: forged,
+        },
+        "save-demonstration",
+      ),
+    ).rejects.toThrow(/stage cannot be verified/);
   }, 30000);
 
   it("an edit cannot reset a row after its durable claim", async () => {

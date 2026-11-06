@@ -20,6 +20,11 @@ import {
 } from "../../shared/twice-actions.js";
 import listAttributes from "../../actions/list-crm-attributes.js";
 import {
+  indexAttributes,
+  loadCrmEntryValues,
+  loadCrmListAttributes,
+} from "../../actions/_crm-list-utils.js";
+import {
   batchById,
   childContext,
   demoForRecipe,
@@ -100,6 +105,10 @@ export async function saveDemonstration(
       second.result.recordId !== first.result.recordId
     )
       fail("The captured list entry does not refer to the created account.", { statusCode: 409 });
+    const attributes = indexAttributes(await loadCrmListAttributes(getDb(), second.input.listId));
+    const stored = (await loadCrmEntryValues(getDb(), [entry.id], attributes)).get(entry.id);
+    if (stored?.values.stage !== second.input.values.stage)
+      fail("The captured list entry stage cannot be verified.", { statusCode: 409 });
   }
   const third = args.trace[2];
   if (third) {

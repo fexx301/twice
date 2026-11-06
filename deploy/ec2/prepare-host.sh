@@ -6,6 +6,11 @@ region=$2
 expected_sha=$3
 release=/srv/twice/release
 cloud-init status --wait >/dev/null
+# Bootstrap only: its app override opens signup, and a running Caddy would publish it.
+if docker ps --format '{{.Names}}' | grep -q caddy; then
+  echo "Caddy is running: this is a live host. prepare-host.sh is first-boot bootstrap only; refusing." >&2
+  exit 1
+fi
 command -v docker >/dev/null
 docker compose version
 install -d -m 700 "$release" /srv/twice/postgres /srv/twice/caddy-data /srv/twice/caddy-config /srv/twice/backups
