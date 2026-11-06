@@ -44,3 +44,7 @@ Earlier notes cite pre-rewrite hashes. Commits up to and including `441aa2f` (an
 | `d1cb4c2` | `0706d02` |
 | `ed5d7a4` (frozen Nov 2 release) | `1653a64` |
 | `a37a31c` | `b7152d3` |
+
+## Live dry run before recording
+
+Owner's signed-in Chrome, driven through the Claude extension on https://twice-agent.duckdns.org with fictional "Dry Run" clients. **Start a new demonstration** reset capture 0/3 on production; re-captured 3/3. The first **Propose parameters** request, sent while the tab was in the background and the agent sidebar cold, failed with `submission-failed` (shown truthfully in the UI; nothing saved). An immediate retry with the tab visible delivered and saved the proposal in 7s. Accepted a new version; new batch prepared in 4s (Hazel/Slate blocked), native question resolved Hazel → New, preview 4 ready · 1 blocked, one approval → **4 Done / 1 Blocked / 0 Partial**. Recording prerequisite: tab in front and agent sidebar opened once before capture.
