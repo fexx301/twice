@@ -36,5 +36,5 @@ No rule sets a duration; aim for about two minutes without hiding material waits
 
 - Creator/display name, contact and eligibility: owner confirmation required.
 - Public Clips URL and signed-out access check: pending separate recording/sharing authorization.
-- Live app: https://twice-agent.duckdns.org (owner sign-in required); repository remains private/local.
+- Live app: https://twice-agent.duckdns.org (owner sign-in required); public repository https://github.com/fexx301/twice (made public Nov 8 at the owner's instruction).
 - Submission form and receipt: pending separate authorization. Internal deadline Nov9 21:00WAT; official close Nov10 08:59WAT.
