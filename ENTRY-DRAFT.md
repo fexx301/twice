@@ -35,6 +35,6 @@ No rule sets a duration; aim for about two minutes without hiding material waits
 ## Pending before entry
 
 - Creator/display name, contact and eligibility: owner confirmation required.
-- Public Clips URL and signed-out access check: pending separate recording/sharing authorization.
+- Public Clips URL: https://clips.agent-native.com/share/V6Dfg0mECuPs ("Twice demo", silent, trimmed to 7:00 in Clips; signed-out access verified Nov 8).
 - Live app: https://twice-agent.duckdns.org (owner sign-in required); public repository https://github.com/fexx301/twice (made public Nov 8 at the owner's instruction).
 - Submission form and receipt: pending separate authorization. Internal deadline Nov9 21:00WAT; official close Nov10 08:59WAT.
